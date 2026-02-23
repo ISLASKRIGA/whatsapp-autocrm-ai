@@ -225,7 +225,7 @@
                     <img id="qr-image" src="" alt="QR Code">
                     <div id="qr-spinner" class="spinner"></div>
                 </div>
-                <p>Escanea el cÃ³digo QR con tu aplicaciÃ³n para sincronizar.</p>
+                <p>Escanea el código QR con tu aplicación para sincronizar.</p>
             </div>
 
             <!-- Empty State / Placeholder -->
@@ -261,7 +261,7 @@
                                 </svg>
                             </button>
                             <div class="chat-avatar-small" id="chat-header-avatar"></div>
-                            <h2 id="current-chat-name">ConversaciÃ³n</h2>
+                            <h2 id="current-chat-name">Conversación</h2>
                         </div>
                         <div class="chat-header-actions">
                             <button id="toggle-client-info-btn" class="icon-btn" onclick="toggleClientInfo()">
@@ -320,7 +320,7 @@
                             </select>
                         </div>
 
-                        <!-- PuntuaciÃ³n -->
+                        <!-- Puntuación -->
                         <div class="info-section">
                             <div class="label-row">
                                 <label>Puntuacion</label>
@@ -371,7 +371,7 @@
                             </div>
                         </div>
 
-                        <!-- Botones de AcciÃ³n -->
+                        <!-- Botones de Acción -->
                         <div class="info-actions">
                             <button class="btn-outline w-full" style="margin-bottom: 8px; justify-content:center;">
                                 <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
@@ -406,7 +406,7 @@
                 <div class="agent-header">
                     <div class="agent-header-titles">
                         <h1>Agente IA</h1>
-                        <p>Personaliza cÃ³mo el bot responde a tus clientes</p>
+                        <p>Personaliza cómo el bot responde a tus clientes</p>
                     </div>
                     <div class="agent-header-actions">
                         <button class="btn-outline-gray" onclick="discardAgentConfig()">
@@ -429,7 +429,7 @@
                     <button class="agent-tab active" onclick="switchAgentTab('general')">General</button>
                     <button class="agent-tab" onclick="switchAgentTab('mensajes')">Mensajes</button>
                     <button class="agent-tab" onclick="switchAgentTab('captura')">Captura de Datos</button>
-                    <button class="agent-tab" onclick="switchAgentTab('config')">ConfiguraciÃ³n IA</button>
+                    <button class="agent-tab" onclick="switchAgentTab('config')">Configuración IA</button>
                 </div>
 
                 <div class="agent-content">
@@ -441,29 +441,29 @@
                         <div class="agent-card">
                             <div class="agent-card-header">
                                 <h2>Identidad del Agente</h2>
-                                <p>Define quiÃ©n es tu agente virtual y cÃ³mo se presenta.</p>
+                                <p>Define quién es tu agente virtual y cómo se presenta.</p>
                             </div>
                             <div class="agent-form-row">
                                 <div class="agent-form-group">
                                     <label>Nombre del Agente</label>
                                     <input type="text" id="agent-name" value="Eryum" class="agent-input">
-                                    <span class="agent-hint">Ej: Ana, Carlos, SofÃ­a, Asistente Virtual</span>
+                                    <span class="agent-hint">Ej: Ana, Carlos, Sofía, Asistente Virtual</span>
                                 </div>
                                 <div class="agent-form-group">
                                     <label>Rol del Agente</label>
                                     <input type="text" id="agent-role" value="asistente de ventas de TalosFlow"
                                         class="agent-input">
                                     <span class="agent-hint">Ej: asistente de ventas, asesor inmobiliario, soporte
-                                        tÃ©cnico</span>
+                                        técnico</span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Estilo de ComunicaciÃ³n -->
+                        <!-- Estilo de Comunicación -->
                         <div class="agent-card">
                             <div class="agent-card-header">
-                                <h2>Estilo de ComunicaciÃ³n</h2>
-                                <p>Define cÃ³mo debe hablar y comportarse tu agente.</p>
+                                <h2>Estilo de Comunicación</h2>
+                                <p>Define cómo debe hablar y comportarse tu agente.</p>
                             </div>
                             <div class="agent-form-row three-cols">
                                 <div class="agent-form-group">
@@ -474,8 +474,8 @@
                                 <div class="agent-form-group">
                                     <label>Idioma</label>
                                     <select class="agent-input" id="agent-language">
-                                        <option>EspaÃ±ol</option>
-                                        <option>InglÃ©s</option>
+                                        <option>Español</option>
+                                        <option>Inglés</option>
                                     </select>
                                 </div>
                                 <div class="agent-form-group">
@@ -489,11 +489,11 @@
                             </div>
                         </div>
 
-                        <!-- InformaciÃ³n del Negocio -->
+                        <!-- Información del Negocio -->
                         <div class="agent-card">
                             <div class="agent-card-header">
-                                <h2>InformaciÃ³n del Negocio</h2>
-                                <p>CuÃ©ntale al agente sobre tu empresa para que pueda responder con precisiÃ³n.</p>
+                                <h2>Información del Negocio</h2>
+                                <p>Cuéntale al agente sobre tu empresa para que pueda responder con precisión.</p>
                             </div>
                             <div class="agent-form-row three-cols-uneven">
                                 <div class="agent-form-group">
@@ -501,14 +501,14 @@
                                     <input type="text" id="business-name" value="TalosFlow" class="agent-input">
                                 </div>
                                 <div class="agent-form-group">
-                                    <label>DescripciÃ³n del Negocio</label>
+                                    <label>Descripción del Negocio</label>
                                     <textarea class="agent-input" id="business-desc"
-                                        rows="4">TalosFlow es una plataforma de automatizaciÃ³n con IA que conecta tu negocio con WhatsApp y Meta Ads. Automatizamos la atenciÃ³n al cliente...</textarea>
+                                        rows="4">TalosFlow es una plataforma de automatización con IA que conecta tu negocio con WhatsApp y Meta Ads. Automatizamos la atención al cliente...</textarea>
                                 </div>
                                 <div class="agent-form-group">
                                     <label>Productos/Servicios</label>
                                     <textarea class="agent-input" id="business-products"
-                                        rows="4">- Chatbot de IA integrado con WhatsApp Business API&#10;- CalificaciÃ³n automÃ¡tica de leads desde Meta Ads...</textarea>
+                                        rows="4">- Chatbot de IA integrado con WhatsApp Business API&#10;- Calificación automática de leads desde Meta Ads...</textarea>
                                 </div>
                             </div>
                         </div>
@@ -522,27 +522,27 @@
                         <div class="agent-card">
                             <div class="agent-card-header">
                                 <h2>Mensajes Predefinidos</h2>
-                                <p>Mensajes especÃ­ficos para situaciones comunes.</p>
+                                <p>Mensajes específicos para situaciones comunes.</p>
                             </div>
                             <div class="agent-form-row">
                                 <div class="agent-form-group">
                                     <label>Mensaje de Bienvenida</label>
                                     <textarea class="agent-input" id="msg-welcome"
-                                        rows="5">Hola! ðŸ‘‹ Soy Eryum de TalosFlow. Vi que te interesa automatizar tu negocio con IA. Â¿En quÃ© tipo de negocio estÃ¡s pensando implementar automatizaciÃ³n?</textarea>
+                                        rows="5">Hola! ðŸ‘‹ Soy Eryum de TalosFlow. Vi que te interesa automatizar tu negocio con IA. ¿En qué tipo de negocio estás pensando implementar automatización?</textarea>
                                 </div>
                                 <div class="agent-form-group">
                                     <label>Mensaje cuando no entiende</label>
                                     <textarea class="agent-input" id="msg-fallback"
-                                        rows="5">Disculpa, no entendÃ­ bien. Â¿PodrÃ­as reformularlo de otra manera?</textarea>
+                                        rows="5">Disculpa, no entendí bien. ¿Podrías reformularlo de otra manera?</textarea>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- IntervenciÃ³n Humana -->
+                        <!-- Intervención Humana -->
                         <div class="agent-card">
                             <div class="agent-card-header">
-                                <h2>IntervenciÃ³n Humana</h2>
-                                <p>CuÃ¡ndo transferir automÃ¡ticamente a un agente humano.</p>
+                                <h2>Intervención Humana</h2>
+                                <p>Cuándo transferir automáticamente a un agente humano.</p>
                             </div>
                             <div class="agent-form-row" style="grid-template-columns: 1fr;">
                                 <div class="agent-form-group">
@@ -606,8 +606,8 @@
                                         <option>Inmobiliaria</option>
                                         <option>E-commerce / Tienda</option>
                                         <option selected>Servicios Profesionales</option>
-                                        <option>EducaciÃ³n / Cursos</option>
-                                        <option>Salud / ClÃ­nica</option>
+                                        <option>Educación / Cursos</option>
+                                        <option>Salud / Clínica</option>
                                         <option>Restaurante / Comida</option>
                                         <option>Automotriz</option>
                                     </select>
@@ -619,7 +619,7 @@
                         <div class="agent-card">
                             <div class="agent-card-header">
                                 <h2>Campos a Capturar</h2>
-                                <p>Define quÃ© datos debe recopilar el agente de forma natural durante la conversaciÃ³n.
+                                <p>Define qué datos debe recopilar el agente de forma natural durante la conversación.
                                 </p>
                             </div>
                             <div id="capture-fields-container"
@@ -632,7 +632,7 @@
                                 <div class="capture-field-row" style="display: flex; gap: 16px;">
                                     <input type="text" class="agent-input" value="email"
                                         style="max-width: 150px; text-align:center; background:#f8fafc;" readonly>
-                                    <input type="text" class="agent-input" value="Correo electrÃ³nico" style="flex:1;">
+                                    <input type="text" class="agent-input" value="Correo electrónico" style="flex:1;">
                                 </div>
                                 <div class="capture-field-row" style="display: flex; gap: 16px;">
                                     <input type="text" class="agent-input" value="volumen_leads"
@@ -670,14 +670,14 @@
                         </div>
                     </div>
 
-                    <!-- TAB: ConfiguraciÃ³n IA -->
+                    <!-- TAB: Configuración IA -->
                     <div id="agent-tab-config" class="agent-tab-pane hidden"
                         style="display: none; flex-direction: column; gap: 24px;">
 
-                        <!-- ConfiguraciÃ³n de Proveedor / Modelos -->
+                        <!-- Configuración de Proveedor / Modelos -->
                         <div class="agent-card">
                             <div class="agent-card-header">
-                                <h2>ConfiguraciÃ³n de Modelos</h2>
+                                <h2>Configuración de Modelos</h2>
                                 <p>Selecciona tu proveedor y el modelo de IA que deseas utilizar.</p>
                             </div>
 
@@ -711,7 +711,7 @@
                                         <option value="openai" selected>OpenAI</option>
                                         <option value="anthropic">Anthropic (Claude)</option>
                                         <option value="google">Google (Gemini)</option>
-                                        <option value="openrouter">OpenRouter (MÃºltiples / DeepSeek)</option>
+                                        <option value="openrouter">OpenRouter (Múltiples / DeepSeek)</option>
                                     </select>
                                 </div>
                             </div>
@@ -720,11 +720,11 @@
                                 <div class="agent-form-group" style="flex:2;">
                                     <label>Modelo</label>
                                     <select class="agent-input">
-                                        <option>GPT-4o Mini (RÃ¡pido)</option>
+                                        <option>GPT-4o Mini (Rápido)</option>
                                         <option>GPT-4o (Inteligente)</option>
                                         <option>Claude 3.5 Sonnet</option>
                                         <option>Gemini 1.5 Pro</option>
-                                        <option>DeepSeek R1 (VÃ­a OpenRouter)</option>
+                                        <option>DeepSeek R1 (Vía OpenRouter)</option>
                                     </select>
                                 </div>
                                 <div class="agent-form-group" style="flex:1;">
@@ -735,11 +735,11 @@
                             </div>
                         </div>
 
-                        <!-- ParÃ¡metros Avanzados -->
+                        <!-- Parámetros Avanzados -->
                         <div class="agent-card">
                             <div class="agent-card-header">
-                                <h2>ParÃ¡metros Avanzados</h2>
-                                <p>Ajustes tÃ©cnicos para usuarios avanzados.</p>
+                                <h2>Parámetros Avanzados</h2>
+                                <p>Ajustes técnicos para usuarios avanzados.</p>
                             </div>
                             <div class="agent-form-row">
                                 <div class="agent-form-group" style="flex:1;">
@@ -750,7 +750,7 @@
                                 <div class="agent-form-group" style="flex:2;">
                                     <label>Instrucciones Personalizadas (System Prompt)</label>
                                     <textarea class="agent-input"
-                                        rows="4">- Identifica RÃPIDO el tipo de necesidad del cliente (ecommerce, servicios, restaurante, inmobiliaria, etc.)&#10;- SÃ© breve y directo en tus respuestas.</textarea>
+                                        rows="4">- Identifica RÃPIDO el tipo de necesidad del cliente (ecommerce, servicios, restaurante, inmobiliaria, etc.)&#10;- Sé breve y directo en tus respuestas.</textarea>
                                 </div>
                             </div>
                         </div>
@@ -824,7 +824,7 @@
                     </div>
                     <div class="crm-stat-card">
                         <div class="stat-info">
-                            <div class="stat-title">NEGOCIACIÃ“N</div>
+                            <div class="stat-title">NEGOCIACIÓN</div>
                             <div class="stat-value" id="stat-negociacion">0</div>
                             <div class="stat-desc text-yellow">en proceso</div>
                         </div>
@@ -841,7 +841,7 @@
                         <div class="stat-info">
                             <div class="stat-title">CERRADOS</div>
                             <div class="stat-value" id="stat-cerrados">0</div>
-                            <div class="stat-desc text-green">ðŸŽ‰ Â¡Ganados!</div>
+                            <div class="stat-desc text-green">ðŸŽ‰ ¡Ganados!</div>
                         </div>
                         <div class="stat-icon bg-green-100"><svg viewBox="0 0 24 24" width="20" height="20"
                                 stroke="currentColor" stroke-width="2" fill="none">
@@ -872,7 +872,7 @@
                         <button class="filter-pill">Contactados</button>
                         <button class="filter-pill">Calificados</button>
                         <button class="filter-pill">Interesados</button>
-                        <button class="filter-pill">NegociaciÃ³n</button>
+                        <button class="filter-pill">Negociación</button>
                         <button class="filter-pill">Cerrados</button>
                         <button class="filter-pill">Perdidos</button>
                     </div>
@@ -1030,7 +1030,7 @@
                                     <th>FECHA/HORA</th>
                                     <th>CLIENTE</th>
                                     <th>MOTIVO</th>
-                                    <th>DURACIÃ“N</th>
+                                    <th>DURACIÓN</th>
                                     <th>ESTADO</th>
                                     <th>ORIGEN</th>
                                     <th>ACCIONES</th>
@@ -1063,7 +1063,7 @@
                             </div>
                             <h1>Base de Conocimiento</h1>
                         </div>
-                        <p>Administra la informaciÃ³n que tu agente IA utiliza para responder a los clientes.</p>
+                        <p>Administra la información que tu agente IA utiliza para responder a los clientes.</p>
                     </div>
                     <div class="kb-header-actions">
                         <button class="kb-btn-outline" onclick="showKbUploadModal()">
@@ -1079,7 +1079,7 @@
                                 fill="none" style="margin-right:6px;">
                                 <circle cx="11" cy="11" r="8"></circle>
                                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                            </svg> Probar BÃºsqueda
+                            </svg> Probar Búsqueda
                         </button>
                         <button class="kb-btn-outline" onclick="renderKnowledgeList()">
                             <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
@@ -1138,10 +1138,10 @@
                             </svg>
                         </div>
                     </div>
-                    <!-- CategorÃ­as -->
+                    <!-- Categorías -->
                     <div class="agenda-stat-card">
                         <div class="stat-info">
-                            <div class="stat-title">CategorÃ­as</div>
+                            <div class="stat-title">Categorías</div>
                             <div class="stat-value text-purple" id="kb-stat-categories">3</div>
                         </div>
                         <div class="stat-icon bg-purple-100">
@@ -1164,11 +1164,11 @@
                                 <circle cx="11" cy="11" r="8"></circle>
                                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                             </svg>
-                            <input type="text" placeholder="Buscar por tÃ­tulo o contenido...">
+                            <input type="text" placeholder="Buscar por título o contenido...">
                         </div>
                         <div class="kb-filters">
                             <select class="agenda-select">
-                                <option>Todas las categorÃ­as</option>
+                                <option>Todas las categorías</option>
                             </select>
                             <select class="agenda-select">
                                 <option>Todos</option>
@@ -1207,8 +1207,8 @@
                                 <line x1="12" y1="3" x2="12" y2="15"></line>
                             </svg>
                             <p id="kb-drop-label" style="margin:0; color:#64748b; font-size:0.95rem;">Arrastra tu
-                                archivo aquÃ­ o <strong style="color:#6366f1;">haz clic para seleccionar</strong></p>
-                            <p style="margin:8px 0 0; color:#94a3b8; font-size:0.8rem;">PDF, DOCX o TXT &bull; MÃ¡x 10
+                                archivo aquí o <strong style="color:#6366f1;">haz clic para seleccionar</strong></p>
+                            <p style="margin:8px 0 0; color:#94a3b8; font-size:0.8rem;">PDF, DOCX o TXT &bull; Máx 10
                                 MB
                             </p>
                         </div>
@@ -1217,20 +1217,20 @@
 
                         <div style="margin-bottom:16px;">
                             <label
-                                style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:6px;">TÃ­tulo
+                                style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:6px;">Título
                                 (opcional)</label>
                             <input type="text" id="kb-doc-title" placeholder="Ej: Manual de Precios 2026"
                                 style="width:100%; padding:10px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.9rem; outline:none; box-sizing:border-box;">
                         </div>
                         <div style="margin-bottom:24px;">
                             <label
-                                style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:6px;">CategorÃ­a</label>
+                                style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:6px;">Categoría</label>
                             <select id="kb-doc-category"
                                 style="width:100%; padding:10px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.9rem; outline:none; background:white;">
                                 <option value="general">General</option>
                                 <option value="precios">Precios</option>
                                 <option value="productos">Productos / Servicios</option>
-                                <option value="politicas">PolÃ­ticas</option>
+                                <option value="politicas">Políticas</option>
                                 <option value="faq">FAQ</option>
                                 <option value="documento">Documento</option>
                             </select>
@@ -1265,23 +1265,23 @@
                         style="background:white; border-radius:20px; padding:32px; width:560px; max-width:90vw; box-shadow:0 20px 60px rgba(0,0,0,0.2);">
                         <div
                             style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                            <h2 style="margin:0; font-size:1.2rem; font-weight:700; color:#0f172a;">Probar BÃºsqueda IA
+                            <h2 style="margin:0; font-size:1.2rem; font-weight:700; color:#0f172a;">Probar Búsqueda IA
                             </h2>
                             <button onclick="closeKbSearchModal()"
                                 style="background:none; border:none; cursor:pointer; font-size:1.4rem; color:#64748b;">&#10005;</button>
                         </div>
                         <p style="margin:0 0 20px; font-size:0.85rem; color:#64748b;">Escribe un mensaje como si fuera
-                            un cliente de WhatsApp y verÃ¡s cÃ³mo responderÃ­a el bot con tu base de conocimiento.</p>
+                            un cliente de WhatsApp y verás cómo respondería el bot con tu base de conocimiento.</p>
 
                         <!-- Chat preview -->
                         <div id="kb-chat-preview"
                             style="background:#f0f4f8; border-radius:12px; min-height:120px; max-height:300px; overflow-y:auto; padding:16px; margin-bottom:16px; display:flex; flex-direction:column; gap:10px;">
-                            <div style="text-align:center; color:#94a3b8; font-size:0.8rem;">El resultado aparecerÃ¡
-                                aquÃ­...</div>
+                            <div style="text-align:center; color:#94a3b8; font-size:0.8rem;">El resultado aparecerá
+                                aquí...</div>
                         </div>
 
                         <div style="display:flex; gap:10px;">
-                            <input type="text" id="kb-test-input" placeholder="Ej: Â¿CuÃ¡nto cuesta el plan bÃ¡sico?"
+                            <input type="text" id="kb-test-input" placeholder="Ej: ¿Cuánto cuesta el plan básico?"
                                 style="flex:1; padding:12px 16px; border:1.5px solid #e2e8f0; border-radius:12px; font-size:0.9rem; outline:none;"
                                 onkeypress="if(event.key==='Enter') runKbSearchTest()">
                             <button id="kb-test-btn" onclick="runKbSearchTest()"
@@ -1305,7 +1305,7 @@
                             conversiones.</p>
                     </div>
                     <div class="reportes-status" style="margin-top: 8px;">
-                        <span style="font-size: 0.85rem; color: #64748b; font-weight: 500;">AtribuciÃ³n de
+                        <span style="font-size: 0.85rem; color: #64748b; font-weight: 500;">Atribución de
                             anuncios:</span> <span
                             style="font-size: 0.85rem; color: #10b981; font-weight: 600;">Activa</span>
                     </div>
@@ -1400,8 +1400,8 @@
                         style="display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 24px; border-bottom: 1px solid #f1f5f9; margin-bottom: 40px;">
                         <div>
                             <h2 style="font-size: 1.1rem; font-weight: 700; color: #0f172a; margin: 0 0 4px 0;">
-                                AtribuciÃ³n de Anuncios</h2>
-                            <p style="font-size: 0.85rem; color: #94a3b8; margin: 0;">Leads generados por campaÃ±a
+                                Atribución de Anuncios</h2>
+                            <p style="font-size: 0.85rem; color: #94a3b8; margin: 0;">Leads generados por campaña
                                 publicitaria</p>
                         </div>
                         <div class="reportes-badge-activo"
@@ -1588,7 +1588,7 @@
                     style="padding: 32px 40px; display: flex; flex-direction: column; gap: 8px;">
                     <h1 style="font-size: 1.5rem; font-weight: 700; color: #0f172a; margin: 0;">Plantillas de WhatsApp
                     </h1>
-                    <p style="font-size: 0.9rem; color: #64748b; margin: 0;">Gestiona y envÃ­a plantillas aprobadas por
+                    <p style="font-size: 0.9rem; color: #64748b; margin: 0;">Gestiona y envía plantillas aprobadas por
                         Meta.</p>
                 </div>
 
@@ -1639,7 +1639,7 @@
                                     style="width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px; font-size: 0.85rem; color: #0f172a; outline: none; height: 120px;">
                                     <!-- Contacts injected here -->
                                 </select>
-                                <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 8px;">MantÃ©n Ctrl/Cmd para
+                                <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 8px;">Mantén Ctrl/Cmd para
                                     seleccionar varios</p>
                             </div>
 
@@ -1647,7 +1647,7 @@
                             <div style="margin-bottom: 16px;">
                                 <label
                                     style="display: block; font-size: 0.85rem; font-weight: 600; color: #0f172a; margin-bottom: 8px;">Programar
-                                    envÃ­o (Opcional)</label>
+                                    envío (Opcional)</label>
                                 <input type="datetime-local" id="pt-schedule-date"
                                     style="width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px; font-size: 0.85rem; color: #0f172a; outline: none;">
                             </div>
@@ -1683,7 +1683,7 @@
                         <div>
                             <h1 style="font-size: 1.5rem; font-weight: 700; color: #0f172a; margin: 0 0 4px 0;">Funnel
                                 de Ventas</h1>
-                            <p style="font-size: 0.9rem; color: #64748b; margin: 0;">Configura el flujo de conversaciÃ³n
+                            <p style="font-size: 0.9rem; color: #64748b; margin: 0;">Configura el flujo de conversación
                                 de tu agente IA paso a paso.</p>
                         </div>
                     </div>
@@ -1795,7 +1795,7 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 2px;">NÃºmero</div>
+                                    <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 2px;">Número</div>
                                     <div style="font-size: 0.95rem; font-weight: 600; color: #0f172a;">+1 561-336-8602
                                     </div>
                                 </div>
@@ -1825,7 +1825,7 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 2px;">VerificaciÃ³n
+                                    <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 2px;">Verificación
                                     </div>
                                     <div style="font-size: 0.95rem; font-weight: 600; color: #0f172a;">Verificado</div>
                                 </div>
@@ -1873,13 +1873,13 @@
                                 <label
                                     style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:6px;">Nombre
                                     del Paso *</label>
-                                <input type="text" id="funnel-step-title" placeholder="Ej: Bienvenida y CalificaciÃ³n"
+                                <input type="text" id="funnel-step-title" placeholder="Ej: Bienvenida y Calificación"
                                     style="width:100%; padding:10px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.9rem; outline:none; box-sizing:border-box;">
                             </div>
                             <div style="margin-bottom:16px;">
                                 <label
-                                    style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:6px;">DescripciÃ³n
-                                    / InstrucciÃ³n para el bot</label>
+                                    style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:6px;">Descripción
+                                    / Instrucción para el bot</label>
                                 <textarea id="funnel-step-desc" rows="3"
                                     placeholder="Ej: Detectar el problema principal del cliente..."
                                     style="width:100%; padding:10px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.9rem; outline:none; resize:vertical; box-sizing:border-box;"></textarea>
@@ -1891,7 +1891,7 @@
                                 <select id="funnel-step-type"
                                     style="width:100%; padding:10px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.9rem; outline:none; background:white;">
                                     <option value="trigger">âš¡ Disparador (Inicio)</option>
-                                    <option value="action">ðŸ¤– AcciÃ³n (IA responde)</option>
+                                    <option value="action">ðŸ¤– Acción (IA responde)</option>
                                     <option value="end">ðŸ Fin de Flujo</option>
                                 </select>
                             </div>
@@ -1982,7 +1982,7 @@
                     <h2 style="font-size: 1.5rem; font-weight: 700; color: #111827; margin: 0 0 6px 0;">Seleccionar
                         plantilla de funnel</h2>
                     <p style="font-size: 0.95rem; color: #6b7280; margin: 0;">Elige una estructura base probada y
-                        personalÃ­zala segÃºn tus necesidades.</p>
+                        personalízala según tus necesidades.</p>
                 </div>
                 <button onclick="closeFunnelTemplateModal()"
                     style="background: none; border: none; cursor: pointer; color: #9ca3af; padding: 8px; border-radius: 8px;">
@@ -2013,8 +2013,8 @@
                         <div class="ft-icon" style="background: white; border-color: #c7d2fe; font-size:1.4rem;">ðŸ 
                         </div>
                         <div class="ft-info">
-                            <h4>Inmobiliaria / Bienes RaÃ­ces</h4>
-                            <p>Funnel para captaciÃ³n de leads i...</p>
+                            <h4>Inmobiliaria / Bienes Raíces</h4>
+                            <p>Funnel para captación de leads i...</p>
                         </div>
                     </div>
 
@@ -2023,7 +2023,7 @@
                         </div>
                         <div class="ft-info">
                             <h4>E-commerce / Tienda Online</h4>
-                            <p>Funnel para atenciÃ³n al cliente de ti...</p>
+                            <p>Funnel para atención al cliente de ti...</p>
                         </div>
                     </div>
 
@@ -2032,7 +2032,7 @@
                         </div>
                         <div class="ft-info">
                             <h4>Servicios Profesionales</h4>
-                            <p>Funnel para captaciÃ³n de clientes d...</p>
+                            <p>Funnel para captación de clientes d...</p>
                         </div>
                     </div>
 
@@ -2040,8 +2040,8 @@
                         <div class="ft-icon" style="background: white; border-color: #e5e7eb; font-size:1.4rem;">ðŸ“š
                         </div>
                         <div class="ft-info">
-                            <h4>EducaciÃ³n / Cursos</h4>
-                            <p>Funnel para inscripciÃ³n a cursos, tal...</p>
+                            <h4>Educación / Cursos</h4>
+                            <p>Funnel para inscripción a cursos, tal...</p>
                         </div>
                     </div>
                 </div>
@@ -2049,8 +2049,8 @@
                 <!-- Right content (Template details) -->
                 <div style="flex-grow: 1; padding: 32px 40px; overflow-y: auto; background: white;">
                     <h3 style="font-size: 1.5rem; font-weight: 700; color: #111827; margin: 0 0 8px 0;">Inmobiliaria /
-                        Bienes RaÃ­ces</h3>
-                    <p style="font-size: 0.95rem; color: #6b7280; margin: 0 0 32px 0;">Funnel para captaciÃ³n de leads
+                        Bienes Raíces</h3>
+                    <p style="font-size: 0.95rem; color: #6b7280; margin: 0 0 32px 0;">Funnel para captación de leads
                         interesados en compra, venta o alquiler de propiedades.</p>
 
                     <div style="display: flex; flex-direction: column; gap: 24px;">
@@ -2059,7 +2059,7 @@
                             <div class="ft-step-number">1</div>
                             <div class="ft-step-content">
                                 <h5>Bienvenida</h5>
-                                <p>Primer contacto, dar la bienvenida y detectar el interÃ©s inicial.</p>
+                                <p>Primer contacto, dar la bienvenida y detectar el interés inicial.</p>
                                 <div class="ft-tags">
                                     <span class="ft-tag">Objetivos:</span>
                                     <span class="ft-tag green">saludo hecho</span>
@@ -2071,8 +2071,8 @@
                         <div class="ft-step">
                             <div class="ft-step-number">2</div>
                             <div class="ft-step-content">
-                                <h5>CalificaciÃ³n</h5>
-                                <p>Obtener informaciÃ³n sobre presupuesto, zona, tipo de inmueble buscado.</p>
+                                <h5>Calificación</h5>
+                                <p>Obtener información sobre presupuesto, zona, tipo de inmueble buscado.</p>
                                 <div class="ft-tags">
                                     <span class="ft-tag">Objetivos:</span>
                                     <span class="ft-tag green">nombre capturado</span>
@@ -2084,7 +2084,7 @@
                         <div class="ft-step">
                             <div class="ft-step-number">3</div>
                             <div class="ft-step-content">
-                                <h5>PresentaciÃ³n de Opciones</h5>
+                                <h5>Presentación de Opciones</h5>
                                 <p>Presentar opciones disponibles que coincidan con los criterios del cliente.</p>
                                 <div class="ft-tags">
                                     <span class="ft-tag">Objetivos:</span>
