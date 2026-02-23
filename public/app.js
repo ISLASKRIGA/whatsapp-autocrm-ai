@@ -543,7 +543,7 @@ function showSection(id) {
     const plantillasView = document.getElementById('plantillas-view');
     const funnelView = document.getElementById('funnel-view');
     const waSectionEl = document.getElementById('section-whatsapp');
-    if (waSectionEl && id !== 'whatsapp') waSectionEl.style.display = 'none';
+    if (waSectionEl && id !== 'whatsapp') waSectionEl.classList.add('hidden');
 
     if (id === 'dashboard') {
         chatSidebar.classList.remove('hidden');
@@ -658,7 +658,7 @@ function showSection(id) {
         if (plantillasView) plantillasView.classList.add('hidden');
         if (funnelView) funnelView.classList.add('hidden');
         const waSection = document.getElementById('section-whatsapp');
-        if (waSection) { waSection.style.display = 'flex'; }
+        if (waSection) { waSection.classList.remove('hidden'); }
     }
 }
 
