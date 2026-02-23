@@ -286,12 +286,24 @@ function updateConnectionStatus(status, logic) {
     statusDot.className = 'status-dot'; // reset
     retryBtn.style.display = 'none';
 
+    // New WhatsApp section elements
+    const waQrImage = document.getElementById('wa-qr-image');
+    const waQrSpinner = document.getElementById('wa-qr-spinner');
+    const waStatus = document.getElementById('wa-status-text');
+    const waConnected = document.getElementById('wa-connected-box');
+    const waQrBox = document.getElementById('wa-qr-box');
+
     switch (status) {
         case 'disconnected':
             statusDot.classList.add('disconnected');
             statusText.textContent = 'Desconectado';
             qrPanel.style.display = 'flex';
             retryBtn.style.display = 'inline-block';
+            if (waStatus) waStatus.textContent = 'Desconectado. Genera un nuevo QR.';
+            if (waConnected) waConnected.style.display = 'none';
+            if (waQrBox) waQrBox.style.display = 'flex';
+            if (waQrSpinner) waQrSpinner.style.display = 'block';
+            if (waQrImage) { waQrImage.style.display = 'none'; waQrImage.src = ''; }
             break;
         case 'qr_ready':
             statusDot.classList.add('waiting');
@@ -300,25 +312,36 @@ function updateConnectionStatus(status, logic) {
             if (logic) {
                 qrImage.src = logic;
                 qrImage.style.display = 'block';
+                // Update new section QR
+                if (waQrImage) { waQrImage.src = logic; waQrImage.style.display = 'block'; }
+                if (waQrSpinner) waQrSpinner.style.display = 'none';
+                if (waStatus) waStatus.textContent = 'Escanea el código QR con tu teléfono';
+                if (waConnected) waConnected.style.display = 'none';
+                if (waQrBox) waQrBox.style.display = 'flex';
             }
             break;
         case 'connecting':
             statusDot.classList.add('connecting');
             statusText.textContent = 'Conectando...';
-            qrPanel.style.display = 'flex'; // Keep visible until ready? Or hide?
+            qrPanel.style.display = 'flex';
+            if (waStatus) waStatus.textContent = 'Conectando...';
             break;
         case 'ready':
             statusDot.classList.add('connected');
             statusText.textContent = 'Conectado';
             qrPanel.style.display = 'none';
+            // Show connected state in new section
+            if (waStatus) waStatus.textContent = '¡Número conectado y activo!';
+            if (waQrBox) waQrBox.style.display = 'none';
+            if (waConnected) { waConnected.style.display = 'flex'; }
             break;
         default: // error
             statusDot.classList.add('disconnected');
             statusText.textContent = 'Error: ' + logic;
-            // logic might be the error message
             if (logic && logic.includes('generate')) {
                 qrPanel.style.display = 'flex';
             }
+            if (waStatus) waStatus.textContent = 'Error de conexión';
             break;
     }
 }
@@ -471,6 +494,8 @@ function showSection(id) {
     const reportesView = document.getElementById('reportes-view');
     const plantillasView = document.getElementById('plantillas-view');
     const funnelView = document.getElementById('funnel-view');
+    const waSectionEl = document.getElementById('section-whatsapp');
+    if (waSectionEl && id !== 'whatsapp') waSectionEl.style.display = 'none';
 
     if (id === 'dashboard') {
         chatSidebar.classList.remove('hidden');
@@ -573,6 +598,19 @@ function showSection(id) {
         if (plantillasView) plantillasView.classList.add('hidden');
         if (funnelView) funnelView.classList.remove('hidden');
         renderFunnelList();
+    } else if (id === 'whatsapp') {
+        chatSidebar.classList.add('hidden');
+        chatView.classList.add('hidden');
+        liveFeedView.classList.add('hidden');
+        clientesView.classList.add('hidden');
+        document.getElementById('replies-view').classList.add('hidden');
+        if (agendaView) agendaView.classList.add('hidden');
+        if (conocimientoView) conocimientoView.classList.add('hidden');
+        if (reportesView) reportesView.classList.add('hidden');
+        if (plantillasView) plantillasView.classList.add('hidden');
+        if (funnelView) funnelView.classList.add('hidden');
+        const waSection = document.getElementById('section-whatsapp');
+        if (waSection) { waSection.style.display = 'flex'; }
     }
 }
 
