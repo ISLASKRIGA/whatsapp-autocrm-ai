@@ -1,0 +1,2115 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoCRM - IA SaaS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+
+        <!-- Left Sidebar: App Navigation -->
+        <nav class="app-sidebar">
+            <div class="brand">
+                <div class="brand-logo">
+                    <svg viewBox="0 0 24 24" fill="none" class="brand-logomark" stroke="white" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                        </path>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-title">AutoCRM</span>
+                    <span class="brand-subtitle">Administrador</span>
+                </div>
+            </div>
+
+            <div class="viewing-pill">
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                Viendo: Todos
+            </div>
+
+            <div class="nav-scroll">
+                <div class="nav-section">
+                    <div class="nav-section-title">PRINCIPAL</div>
+                    <button class="nav-btn active" onclick="showSection('dashboard')">
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        Conversaciones
+                    </button>
+                    <button class="nav-btn" onclick="showSection('clientes')">
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        Clientes
+                    </button>
+                    <button class="nav-btn" onclick="showSection('reportes')">
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                        Reportes
+                    </button>
+                    <button class="nav-btn" onclick="showSection('agenda')">
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        Agenda
+                    </button>
+                    <button class="nav-btn" onclick="showSection('plantillas')">
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                        Plantillas
+                    </button>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">CONFIGURACION</div>
+                    <button class="nav-btn">
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                            </path>
+                        </svg>
+                        WhatsApp
+                    </button>
+                    <button class="nav-btn" onclick="showSection('replies')">
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                        </svg>
+                        Agente IA
+                    </button>
+                    <button class="nav-btn" onclick="showSection('conocimiento')">
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        </svg>
+                        Conocimiento
+                    </button>
+                    <button class="nav-btn" onclick="showSection('funnel')">
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                        </svg>
+                        Funnel
+                    </button>
+                    <button class="nav-btn">
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                        </svg>
+                        Webhooks
+                    </button>
+                </div>
+            </div>
+
+            <div class="user-profile">
+                <!-- logout pill looking style -->
+                <div class="logout-pill">
+                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    Salir de vista
+                </div>
+                <div class="profile-details">
+                    <div class="user-avatar" style="background-color: #3b82f6;">A</div>
+                    <div class="user-info">
+                        <div class="user-name">Administrador</div>
+                        <div class="user-email">admin@crm.local</div>
+                    </div>
+                    <div class="status-indicator">
+                        <div class="status-dot disconnected" id="connection-status-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Middle Sidebar: Chats List -->
+        <aside class="chat-sidebar" id="chat-sidebar">
+            <header class="chat-sidebar-header">
+                <h2>Chats</h2>
+                <div class="chat-actions">
+                    <!-- BOT TOGGLE -->
+                    <div class="bot-toggle-container"
+                        style="display: flex; align-items: center; gap: 6px; margin-right: 8px;">
+                        <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-secondary);">Bot:</span>
+                        <label class="bot-switch">
+                            <input type="checkbox" id="global-bot-toggle" checked onchange="toggleGlobalBot(this)">
+                            <span class="bot-slider"></span>
+                        </label>
+                    </div>
+                    <button class="icon-btn"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor"
+                            stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                            </path>
+                        </svg></button>
+                    <button class="icon-btn"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor"
+                            stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="21" y1="10" x2="3" y2="10"></line>
+                            <line x1="21" y1="6" x2="3" y2="6"></line>
+                            <line x1="21" y1="14" x2="3" y2="14"></line>
+                            <line x1="21" y1="18" x2="3" y2="18"></line>
+                        </svg></button>
+                    <span class="chat-badge" id="chat-count">0</span>
+                </div>
+            </header>
+
+            <div class="search-container">
+                <div class="search-box">
+                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" placeholder="Buscar por nombre o mensaje...">
+                </div>
+            </div>
+
+            <div id="chat-list" class="chat-list">
+                <!-- Chat items go here -->
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+
+            <!-- Connection Panel -->
+            <div id="connection-panel" class="connection-panel" style="display:none;">
+                <div class="empty-icon-box">
+                    <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="1.5" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                        </path>
+                    </svg>
+                </div>
+                <h2>Conecta WhatsApp</h2>
+                <div class="qr-container">
+                    <img id="qr-image" src="" alt="QR Code">
+                    <div id="qr-spinner" class="spinner"></div>
+                </div>
+                <p>Escanea el cÃ³digo QR con tu aplicaciÃ³n para sincronizar.</p>
+            </div>
+
+            <!-- Empty State / Placeholder -->
+            <div id="live-feed-view" class="live-feed-view">
+                <div class="empty-icon-box">
+                    <svg viewBox="0 0 24 24" width="40" height="40" stroke="currentColor" stroke-width="1.5" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        <circle cx="9" cy="10" r="1.5" fill="currentColor"></circle>
+                        <circle cx="14" cy="10" r="1.5" fill="currentColor"></circle>
+                        <circle cx="19" cy="10" r="1.5" fill="currentColor"></circle>
+                    </svg>
+                </div>
+                <h2>Selecciona una conversacion</h2>
+                <p>Elige un contacto para ver sus mensajes</p>
+                <div class="keyboard-shortcuts">
+                    <span class="shortcut"><kbd>â†‘â†“</kbd> navegar</span>
+                    <span class="shortcut"><kbd>Enter</kbd> abrir</span>
+                    <span class="shortcut"><kbd>Esc</kbd> volver</span>
+                </div>
+            </div>
+
+            <!-- Chat View -->
+            <section id="chat-view" class="chat-view hidden">
+                <div class="chat-main-area">
+                    <header class="chat-header">
+                        <div class="chat-header-info">
+                            <button id="mobile-back-btn" class="icon-btn mobile-back-btn" onclick="backToChatList()">
+                                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                                    <polyline points="12 19 5 12 12 5"></polyline>
+                                </svg>
+                            </button>
+                            <div class="chat-avatar-small" id="chat-header-avatar"></div>
+                            <h2 id="current-chat-name">ConversaciÃ³n</h2>
+                        </div>
+                        <div class="chat-header-actions">
+                            <button id="toggle-client-info-btn" class="icon-btn" onclick="toggleClientInfo()">
+                                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </header>
+
+                    <div id="messages-container" class="messages-container">
+                        <!-- Messages go here -->
+                    </div>
+
+                    <div class="message-input-area">
+                        <button class="attach-btn"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor"
+                                stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48">
+                                </path>
+                            </svg></button>
+                        <input type="text" id="message-input" placeholder="Escribe un mensaje..." disabled>
+                        <button id="send-btn" onclick="sendMessage()" disabled title="Enviar">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Sidebar for Client Data -->
+                <aside id="client-info-panel" class="client-info-panel hidden">
+                    <div class="client-info-header">
+                        <h2>Datos del Cliente</h2>
+                        <button class="icon-btn" onclick="toggleClientInfo()">
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2"
+                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="client-info-content">
+                        <!-- Estado del Lead -->
+                        <div class="info-section">
+                            <label>Estado del Lead</label>
+                            <select class="input-modern w-full">
+                                <option>Interesado</option>
+                                <option>Prospecto</option>
+                                <option>Cliente</option>
+                            </select>
+                        </div>
+
+                        <!-- PuntuaciÃ³n -->
+                        <div class="info-section">
+                            <div class="label-row">
+                                <label>Puntuacion</label>
+                                <span class="score-value">45%</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width: 45%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Progreso -->
+                        <div class="info-section">
+                            <div class="label-row">
+                                <label>Progreso del Paso</label>
+                                <span class="badge-blue">presentacion</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill bg-blue" style="width: 0%;"></div>
+                            </div>
+                            <div class="checklist">
+                                <label><input type="checkbox"> opciones presentadas</label>
+                                <label><input type="checkbox"> interes detectado</label>
+                            </div>
+                        </div>
+
+                        <!-- Datos Capturados -->
+                        <div class="info-section">
+                            <div class="label-row" style="margin-bottom: 8px;">
+                                <label>Datos Capturados</label>
+                                <button class="icon-btn"><svg viewBox="0 0 24 24" width="14" height="14"
+                                        stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M12 20h9"></path>
+                                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                                    </svg></button>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-key">Nombre</span>
+                                <span class="data-val" id="client-info-name">...</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-key">Email</span>
+                                <span class="data-val">-</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-key">Telefono</span>
+                                <span class="data-val" id="client-info-phone">...</span>
+                            </div>
+                        </div>
+
+                        <!-- Botones de AcciÃ³n -->
+                        <div class="info-actions">
+                            <button class="btn-outline w-full" style="margin-bottom: 8px; justify-content:center;">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                                    fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                    style="margin-right:8px;">
+                                    <polyline points="21 8 21 21 3 21 3 8"></polyline>
+                                    <rect x="1" y="3" width="22" height="5"></rect>
+                                    <line x1="10" y1="12" x2="14" y2="12"></line>
+                                </svg>
+                                Archivar conversacion
+                            </button>
+                            <button class="btn-danger-outline w-full" style="justify-content:center;">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                                    fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                    style="margin-right:8px;">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path
+                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                    </path>
+                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                </svg>
+                                Eliminar conversacion
+                            </button>
+                        </div>
+                    </div>
+                </aside>
+            </section>
+
+            <!-- Configuration Section - Redesigned Agente IA -->
+            <section id="replies-view" class="hidden agent-ia-view">
+                <div class="agent-header">
+                    <div class="agent-header-titles">
+                        <h1>Agente IA</h1>
+                        <p>Personaliza cÃ³mo el bot responde a tus clientes</p>
+                    </div>
+                    <div class="agent-header-actions">
+                        <button class="btn-outline-gray" onclick="discardAgentConfig()">
+                            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                                fill="none" style="margin-right: 6px;">
+                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                                <path d="M3 3v5h5"></path>
+                            </svg> Descartar
+                        </button>
+                        <button id="btn-save-agent" class="btn-primary-green" onclick="saveAgentConfig()">
+                            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                                fill="none" style="margin-right: 6px;">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg> <span id="btn-save-agent-text">Guardar</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="agent-tabs">
+                    <button class="agent-tab active" onclick="switchAgentTab('general')">General</button>
+                    <button class="agent-tab" onclick="switchAgentTab('mensajes')">Mensajes</button>
+                    <button class="agent-tab" onclick="switchAgentTab('captura')">Captura de Datos</button>
+                    <button class="agent-tab" onclick="switchAgentTab('config')">ConfiguraciÃ³n IA</button>
+                </div>
+
+                <div class="agent-content">
+
+                    <!-- TAB: General -->
+                    <div id="agent-tab-general" class="agent-tab-pane"
+                        style="display: flex; flex-direction: column; gap: 24px;">
+                        <!-- Identidad del Agente -->
+                        <div class="agent-card">
+                            <div class="agent-card-header">
+                                <h2>Identidad del Agente</h2>
+                                <p>Define quiÃ©n es tu agente virtual y cÃ³mo se presenta.</p>
+                            </div>
+                            <div class="agent-form-row">
+                                <div class="agent-form-group">
+                                    <label>Nombre del Agente</label>
+                                    <input type="text" id="agent-name" value="Eryum" class="agent-input">
+                                    <span class="agent-hint">Ej: Ana, Carlos, SofÃ­a, Asistente Virtual</span>
+                                </div>
+                                <div class="agent-form-group">
+                                    <label>Rol del Agente</label>
+                                    <input type="text" id="agent-role" value="asistente de ventas de TalosFlow"
+                                        class="agent-input">
+                                    <span class="agent-hint">Ej: asistente de ventas, asesor inmobiliario, soporte
+                                        tÃ©cnico</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Estilo de ComunicaciÃ³n -->
+                        <div class="agent-card">
+                            <div class="agent-card-header">
+                                <h2>Estilo de ComunicaciÃ³n</h2>
+                                <p>Define cÃ³mo debe hablar y comportarse tu agente.</p>
+                            </div>
+                            <div class="agent-form-row three-cols">
+                                <div class="agent-form-group">
+                                    <label>Personalidad</label>
+                                    <input type="text" id="agent-personality" value="profesional, amable y entusiasta"
+                                        class="agent-input">
+                                </div>
+                                <div class="agent-form-group">
+                                    <label>Idioma</label>
+                                    <select class="agent-input" id="agent-language">
+                                        <option>EspaÃ±ol</option>
+                                        <option>InglÃ©s</option>
+                                    </select>
+                                </div>
+                                <div class="agent-form-group">
+                                    <label>Tono</label>
+                                    <select class="agent-input" id="agent-tone">
+                                        <option>Casual y amigable</option>
+                                        <option>Formal</option>
+                                        <option>Directo</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- InformaciÃ³n del Negocio -->
+                        <div class="agent-card">
+                            <div class="agent-card-header">
+                                <h2>InformaciÃ³n del Negocio</h2>
+                                <p>CuÃ©ntale al agente sobre tu empresa para que pueda responder con precisiÃ³n.</p>
+                            </div>
+                            <div class="agent-form-row three-cols-uneven">
+                                <div class="agent-form-group">
+                                    <label>Nombre de la Empresa</label>
+                                    <input type="text" id="business-name" value="TalosFlow" class="agent-input">
+                                </div>
+                                <div class="agent-form-group">
+                                    <label>DescripciÃ³n del Negocio</label>
+                                    <textarea class="agent-input" id="business-desc"
+                                        rows="4">TalosFlow es una plataforma de automatizaciÃ³n con IA que conecta tu negocio con WhatsApp y Meta Ads. Automatizamos la atenciÃ³n al cliente...</textarea>
+                                </div>
+                                <div class="agent-form-group">
+                                    <label>Productos/Servicios</label>
+                                    <textarea class="agent-input" id="business-products"
+                                        rows="4">- Chatbot de IA integrado con WhatsApp Business API&#10;- CalificaciÃ³n automÃ¡tica de leads desde Meta Ads...</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: Mensajes -->
+                    <div id="agent-tab-mensajes" class="agent-tab-pane hidden"
+                        style="display: none; flex-direction: column; gap: 24px;">
+
+                        <!-- Mensajes Predefinidos -->
+                        <div class="agent-card">
+                            <div class="agent-card-header">
+                                <h2>Mensajes Predefinidos</h2>
+                                <p>Mensajes especÃ­ficos para situaciones comunes.</p>
+                            </div>
+                            <div class="agent-form-row">
+                                <div class="agent-form-group">
+                                    <label>Mensaje de Bienvenida</label>
+                                    <textarea class="agent-input" id="msg-welcome"
+                                        rows="5">Hola! ðŸ‘‹ Soy Eryum de TalosFlow. Vi que te interesa automatizar tu negocio con IA. Â¿En quÃ© tipo de negocio estÃ¡s pensando implementar automatizaciÃ³n?</textarea>
+                                </div>
+                                <div class="agent-form-group">
+                                    <label>Mensaje cuando no entiende</label>
+                                    <textarea class="agent-input" id="msg-fallback"
+                                        rows="5">Disculpa, no entendÃ­ bien. Â¿PodrÃ­as reformularlo de otra manera?</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- IntervenciÃ³n Humana -->
+                        <div class="agent-card">
+                            <div class="agent-card-header">
+                                <h2>IntervenciÃ³n Humana</h2>
+                                <p>CuÃ¡ndo transferir automÃ¡ticamente a un agente humano.</p>
+                            </div>
+                            <div class="agent-form-row" style="grid-template-columns: 1fr;">
+                                <div class="agent-form-group">
+                                    <label>Palabras Clave de Transferencia</label>
+                                    <input type="text" id="msg-human"
+                                        value="hablar con persona, agente humano, queja urgente, problema grave, necesito ayuda"
+                                        class="agent-input">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Respuestas AutomÃ¡ticas (Legacy compat) -->
+                        <div class="agent-card">
+                            <div class="agent-card-header"
+                                style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <h2>Respuestas AutomÃ¡ticas</h2>
+                                    <p>Respuestas directas basadas en reglas (Opcional).</p>
+                                </div>
+                                <div>
+                                    <div class="bot-toggle-container"
+                                        style="display: flex; align-items: center; gap: 6px;">
+                                        <span
+                                            style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary);">Activo:</span>
+                                        <label class="bot-switch">
+                                            <input type="checkbox" id="auto-replies-toggle" checked>
+                                            <span class="bot-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="agent-form-row" style="grid-template-columns: 1fr;">
+                                <div class="reply-form" style="display: flex; gap: 16px;">
+                                    <input type="text" id="keyword-input" class="agent-input" style="flex: 1;"
+                                        placeholder="Palabra clave (ej: info)">
+                                    <input type="text" id="response-input" class="agent-input" style="flex: 2;"
+                                        placeholder="Respuesta...">
+                                    <button class="btn-primary-green" onclick="addReply()"
+                                        style="padding: 10px 16px;">AÃ±adir</button>
+                                </div>
+                                <div id="replies-list" class="replies-list"
+                                    style="margin-top: 16px; display: flex; flex-direction: column; gap: 8px;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: Captura de Datos -->
+                    <div id="agent-tab-captura" class="agent-tab-pane hidden"
+                        style="display: none; flex-direction: column; gap: 24px;">
+                        <!-- Tipo de Negocio -->
+                        <div class="agent-card">
+                            <div class="agent-card-header">
+                                <h2>Tipo de Negocio</h2>
+                                <p>Selecciona la categorÃ­a que mejor describe tu negocio.</p>
+                            </div>
+                            <div class="agent-form-row" style="grid-template-columns: 1fr;">
+                                <div class="agent-form-group" style="max-width: 400px;">
+                                    <select class="agent-input">
+                                        <option>General</option>
+                                        <option>Inmobiliaria</option>
+                                        <option>E-commerce / Tienda</option>
+                                        <option selected>Servicios Profesionales</option>
+                                        <option>EducaciÃ³n / Cursos</option>
+                                        <option>Salud / ClÃ­nica</option>
+                                        <option>Restaurante / Comida</option>
+                                        <option>Automotriz</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Campos a Capturar -->
+                        <div class="agent-card">
+                            <div class="agent-card-header">
+                                <h2>Campos a Capturar</h2>
+                                <p>Define quÃ© datos debe recopilar el agente de forma natural durante la conversaciÃ³n.
+                                </p>
+                            </div>
+                            <div id="capture-fields-container"
+                                style="display: flex; flex-direction: column; gap: 16px;">
+                                <div class="capture-field-row" style="display: flex; gap: 16px;">
+                                    <input type="text" class="agent-input" value="nombre"
+                                        style="max-width: 150px; text-align:center; background:#f8fafc;" readonly>
+                                    <input type="text" class="agent-input" value="Nombre completo" style="flex:1;">
+                                </div>
+                                <div class="capture-field-row" style="display: flex; gap: 16px;">
+                                    <input type="text" class="agent-input" value="email"
+                                        style="max-width: 150px; text-align:center; background:#f8fafc;" readonly>
+                                    <input type="text" class="agent-input" value="Correo electrÃ³nico" style="flex:1;">
+                                </div>
+                                <div class="capture-field-row" style="display: flex; gap: 16px;">
+                                    <input type="text" class="agent-input" value="volumen_leads"
+                                        style="max-width: 150px; text-align:center; background:#f8fafc;" readonly>
+                                    <input type="text" class="agent-input" value="Leads mensuales aproximados"
+                                        style="flex:1;">
+                                </div>
+                                <div class="capture-field-row" style="display: flex; gap: 16px;">
+                                    <input type="text" class="agent-input" value="empresa"
+                                        style="max-width: 150px; text-align:center; background:#f8fafc;" readonly>
+                                    <input type="text" class="agent-input" value="Nombre de la empresa" style="flex:1;">
+                                </div>
+                                <div class="capture-field-row" style="display: flex; gap: 16px;">
+                                    <input type="text" class="agent-input" value="tipo_negocio"
+                                        style="max-width: 150px; text-align:center; background:#f8fafc;" readonly>
+                                    <input type="text" class="agent-input" value="Tipo de negocio" style="flex:1;">
+                                </div>
+                                <div class="capture-field-row" style="display: flex; gap: 16px;">
+                                    <input type="text" class="agent-input" placeholder="clave"
+                                        style="max-width: 150px; text-align:center;">
+                                    <input type="text" class="agent-input" placeholder="Etiqueta" style="flex:1;">
+                                </div>
+                            </div>
+                            <div style="margin-top: 16px;">
+                                <button onclick="addCaptureField()"
+                                    style="background:none; border:none; color:#10b981; font-weight:500; font-size:15px; cursor:pointer; display:flex; align-items:center; gap:6px; padding:0; outline:none;">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor"
+                                        stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                    Agregar campo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: ConfiguraciÃ³n IA -->
+                    <div id="agent-tab-config" class="agent-tab-pane hidden"
+                        style="display: none; flex-direction: column; gap: 24px;">
+
+                        <!-- ConfiguraciÃ³n de Proveedor / Modelos -->
+                        <div class="agent-card">
+                            <div class="agent-card-header">
+                                <h2>ConfiguraciÃ³n de Modelos</h2>
+                                <p>Selecciona tu proveedor y el modelo de IA que deseas utilizar.</p>
+                            </div>
+
+                            <div
+                                style="background: #f8fafc; border-radius: 8px; padding: 16px; margin-bottom: 20px; display: flex; align-items: flex-start; gap: 12px; border: 1px solid #e2e8f0;">
+                                <input type="checkbox" id="use-global-key" checked
+                                    style="margin-top: 4px; width:16px; height:16px; cursor:pointer;"
+                                    onclick="document.getElementById('api-key-container').style.display = this.checked ? 'none' : 'block'">
+                                <div>
+                                    <label for="use-global-key"
+                                        style="font-weight: 600; font-size: 0.95rem; color: #0f172a; cursor:pointer; display:block; margin-bottom:4px;">Usar
+                                        API Key global del sistema</label>
+                                    <span style="font-size: 0.85rem; color: #64748b;">Recomendado. Usa la API key
+                                        configurada por el administrador.</span>
+                                </div>
+                            </div>
+
+                            <div id="api-key-container" style="display: none; margin-bottom: 20px;">
+                                <div class="agent-form-group">
+                                    <label>Tu API Key</label>
+                                    <input type="password" class="agent-input" placeholder="sk-...">
+                                    <span class="agent-hint">Obtiene tu key en la plataforma del proveedor
+                                        seleccionado.</span>
+                                </div>
+                            </div>
+
+                            <div class="agent-form-row">
+                                <div class="agent-form-group">
+                                    <label>Proveedor</label>
+                                    <select class="agent-input" id="ia-provider">
+                                        <option value="openai" selected>OpenAI</option>
+                                        <option value="anthropic">Anthropic (Claude)</option>
+                                        <option value="google">Google (Gemini)</option>
+                                        <option value="openrouter">OpenRouter (MÃºltiples / DeepSeek)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="agent-form-row">
+                                <div class="agent-form-group" style="flex:2;">
+                                    <label>Modelo</label>
+                                    <select class="agent-input">
+                                        <option>GPT-4o Mini (RÃ¡pido)</option>
+                                        <option>GPT-4o (Inteligente)</option>
+                                        <option>Claude 3.5 Sonnet</option>
+                                        <option>Gemini 1.5 Pro</option>
+                                        <option>DeepSeek R1 (VÃ­a OpenRouter)</option>
+                                    </select>
+                                </div>
+                                <div class="agent-form-group" style="flex:1;">
+                                    <label>Max Tokens</label>
+                                    <input type="number" class="agent-input" value="500">
+                                    <span class="agent-hint">300-700 recomendado</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ParÃ¡metros Avanzados -->
+                        <div class="agent-card">
+                            <div class="agent-card-header">
+                                <h2>ParÃ¡metros Avanzados</h2>
+                                <p>Ajustes tÃ©cnicos para usuarios avanzados.</p>
+                            </div>
+                            <div class="agent-form-row">
+                                <div class="agent-form-group" style="flex:1;">
+                                    <label>Temperatura (creatividad)</label>
+                                    <input type="number" step="0.1" min="0" max="2" class="agent-input" value="0.5">
+                                    <span class="agent-hint">0.3-0.5 Info, 0.6-0.7 Ventas, 0.8-1.0 Casual</span>
+                                </div>
+                                <div class="agent-form-group" style="flex:2;">
+                                    <label>Instrucciones Personalizadas (System Prompt)</label>
+                                    <textarea class="agent-input"
+                                        rows="4">- Identifica RÃPIDO el tipo de necesidad del cliente (ecommerce, servicios, restaurante, inmobiliaria, etc.)&#10;- SÃ© breve y directo en tus respuestas.</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- Clientes CRM Section -->
+            <section id="clientes-view" class="hidden clientes-view">
+                <div class="crm-header-dark">
+                    <div class="crm-header-top">
+                        <div class="crm-titles">
+                            <div class="crm-badge"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor"
+                                    stroke-width="2" fill="none">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg> <span id="crm-total-badge">10 contactos</span></div>
+                            <h1>CRM de Clientes</h1>
+                            <p>Gestiona y visualiza todos tus contactos en un solo lugar</p>
+                        </div>
+                        <div class="crm-actions">
+                            <div class="crm-search">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                                    fill="none">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                                <input type="text" placeholder="Buscar cliente..." id="crm-search-input">
+                            </div>
+                            <button class="crm-export-btn"><svg viewBox="0 0 24 24" width="16" height="16"
+                                    stroke="currentColor" stroke-width="2" fill="none">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg> Exportar</button>
+                        </div>
+                    </div>
+                </div> <!-- Closes .crm-header-dark -->
+
+                <div class="crm-stats-container">
+                    <div class="crm-stat-card">
+                        <div class="stat-info">
+                            <div class="stat-title">TOTAL</div>
+                            <div class="stat-value" id="stat-total">0</div>
+                            <div class="stat-desc">contactos</div>
+                        </div>
+                        <div class="stat-icon bg-indigo-100"><svg viewBox="0 0 24 24" width="20" height="20"
+                                stroke="currentColor" stroke-width="2" fill="none">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg></div>
+                    </div>
+                    <div class="crm-stat-card">
+                        <div class="stat-info">
+                            <div class="stat-title">CALIFICADOS</div>
+                            <div class="stat-value" id="stat-calificados">0</div>
+                            <div class="stat-desc text-purple">listos para avanzar</div>
+                        </div>
+                        <div class="stat-icon bg-purple-100"><svg viewBox="0 0 24 24" width="20" height="20"
+                                stroke="currentColor" stroke-width="2" fill="none">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg></div>
+                    </div>
+                    <div class="crm-stat-card">
+                        <div class="stat-info">
+                            <div class="stat-title">NEGOCIACIÃ“N</div>
+                            <div class="stat-value" id="stat-negociacion">0</div>
+                            <div class="stat-desc text-yellow">en proceso</div>
+                        </div>
+                        <div class="stat-icon bg-yellow-100"><svg viewBox="0 0 24 24" width="20" height="20"
+                                stroke="currentColor" stroke-width="2" fill="none">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg></div>
+                    </div>
+                    <div class="crm-stat-card">
+                        <div class="stat-info">
+                            <div class="stat-title">CERRADOS</div>
+                            <div class="stat-value" id="stat-cerrados">0</div>
+                            <div class="stat-desc text-green">ðŸŽ‰ Â¡Ganados!</div>
+                        </div>
+                        <div class="stat-icon bg-green-100"><svg viewBox="0 0 24 24" width="20" height="20"
+                                stroke="currentColor" stroke-width="2" fill="none">
+                                <circle cx="12" cy="8" r="7"></circle>
+                                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                            </svg></div>
+                    </div>
+                    <div class="crm-stat-card">
+                        <div class="stat-info">
+                            <div class="stat-title">PERDIDOS</div>
+                            <div class="stat-value" id="stat-perdidos">0</div>
+                            <div class="stat-desc text-red">oportunidades</div>
+                        </div>
+                        <div class="stat-icon bg-red-100"><svg viewBox="0 0 24 24" width="20" height="20"
+                                stroke="currentColor" stroke-width="2" fill="none">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="15" y1="9" x2="9" y2="15"></line>
+                                <line x1="9" y1="9" x2="15" y2="15"></line>
+                            </svg></div>
+                    </div>
+                </div>
+
+                <div class="crm-content">
+                    <div class="crm-filters">
+                        <span class="filter-label">Filtrar:</span>
+                        <button class="filter-pill active">Todos</button>
+                        <button class="filter-pill">Nuevos</button>
+                        <button class="filter-pill">Contactados</button>
+                        <button class="filter-pill">Calificados</button>
+                        <button class="filter-pill">Interesados</button>
+                        <button class="filter-pill">NegociaciÃ³n</button>
+                        <button class="filter-pill">Cerrados</button>
+                        <button class="filter-pill">Perdidos</button>
+                    </div>
+
+                    <div class="crm-table-container">
+                        <div class="crm-table-header">
+                            <h3>Lista de Contactos</h3>
+                            <span class="results-count" id="crm-results-count">0 resultados</span>
+                        </div>
+                        <table class="crm-table">
+                            <thead>
+                                <tr>
+                                    <th>CLIENTE</th>
+                                    <th>CONTACTO</th>
+                                    <th>ESTADO</th>
+                                    <th>LEAD SCORE</th>
+                                    <th>BOT</th>
+                                </tr>
+                            </thead>
+                            <tbody id="crm-table-body">
+                                <!-- Dynamic rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Agenda View Section -->
+            <section id="agenda-view" class="hidden agenda-view">
+                <div class="agenda-header">
+                    <div class="agenda-header-titles">
+                        <h1>Agenda de citas</h1>
+                        <p>Gestiona las citas agendadas con tus clientes.</p>
+                    </div>
+                    <button class="btn-nueva-cita">+ Nueva Cita</button>
+                </div>
+
+                <div class="agenda-stats-container">
+                    <!-- Hoy -->
+                    <div class="agenda-stat-card">
+                        <div class="stat-info">
+                            <div class="stat-title">Hoy</div>
+                            <div class="stat-value" id="agenda-stat-hoy">1</div>
+                        </div>
+                        <div class="stat-icon bg-purple-100">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                                fill="none">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                        </div>
+                    </div>
+                    <!-- Esta semana -->
+                    <div class="agenda-stat-card">
+                        <div class="stat-info">
+                            <div class="stat-title">Esta semana</div>
+                            <div class="stat-value" id="agenda-stat-semana">2</div>
+                        </div>
+                        <div class="stat-icon bg-green-100">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                                fill="none">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                    <!-- Pendientes -->
+                    <div class="agenda-stat-card">
+                        <div class="stat-info">
+                            <div class="stat-title">Pendientes</div>
+                            <div class="stat-value" id="agenda-stat-pendientes">2</div>
+                        </div>
+                        <div class="stat-icon bg-yellow-100">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                                fill="none">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                    <!-- Completadas -->
+                    <div class="agenda-stat-card">
+                        <div class="stat-info">
+                            <div class="stat-title">Completadas</div>
+                            <div class="stat-value" id="agenda-stat-completadas">0</div>
+                        </div>
+                        <div class="stat-icon bg-green-100">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                                fill="none">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="agenda-content">
+                    <div class="agenda-toolbar">
+                        <div class="agenda-view-toggles">
+                            <button id="btn-view-lista" class="toggle-btn active" onclick="changeAgendaView('lista')">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                                    fill="none">
+                                    <line x1="8" y1="6" x2="21" y2="6"></line>
+                                    <line x1="8" y1="12" x2="21" y2="12"></line>
+                                    <line x1="8" y1="18" x2="21" y2="18"></line>
+                                    <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                                    <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                    <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                                </svg>
+                                Lista
+                            </button>
+                            <button id="btn-view-semana" class="toggle-btn" onclick="changeAgendaView('semana')">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                                    fill="none">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                                Semana
+                            </button>
+                            <button id="btn-view-mes" class="toggle-btn" onclick="changeAgendaView('mes')">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                                    fill="none">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                                Mes
+                            </button>
+                        </div>
+                        <div class="agenda-date-nav">
+                            <button class="nav-icon-btn">&lt;</button>
+                            <span class="current-date">Hoy</span>
+                            <button class="nav-icon-btn">&gt;</button>
+                            <span class="view-title">Todas las citas</span>
+                        </div>
+                        <div class="agenda-filter">
+                            <select class="agenda-select">
+                                <option>Todos</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="crm-table-container" id="agenda-lista-container">
+                        <table class="crm-table agenda-table">
+                            <thead>
+                                <tr>
+                                    <th>FECHA/HORA</th>
+                                    <th>CLIENTE</th>
+                                    <th>MOTIVO</th>
+                                    <th>DURACIÃ“N</th>
+                                    <th>ESTADO</th>
+                                    <th>ORIGEN</th>
+                                    <th>ACCIONES</th>
+                                </tr>
+                            </thead>
+                            <tbody id="agenda-table-body">
+                                <!-- Dynamic rows -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="agenda-calendar-container" class="hidden">
+                        <!-- Rendered via JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conocimiento View Section -->
+            <section id="conocimiento-view" class="hidden conocimiento-view">
+                <div class="kb-header">
+                    <div class="kb-header-titles">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                            <div class="kb-title-icon">
+                                <!-- knowledge book icon -->
+                                <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2"
+                                    fill="none" color="#9333ea">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                </svg>
+                            </div>
+                            <h1>Base de Conocimiento</h1>
+                        </div>
+                        <p>Administra la informaciÃ³n que tu agente IA utiliza para responder a los clientes.</p>
+                    </div>
+                    <div class="kb-header-actions">
+                        <button class="kb-btn-outline" onclick="showKbUploadModal()">
+                            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                                fill="none" style="margin-right:6px;">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg> Subir Archivo
+                        </button>
+                        <button class="kb-btn-outline" onclick="showKbSearchModal()">
+                            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                                fill="none" style="margin-right:6px;">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg> Probar BÃºsqueda
+                        </button>
+                        <button class="kb-btn-outline" onclick="renderKnowledgeList()">
+                            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                                fill="none" style="margin-right:6px;">
+                                <polyline points="23 4 23 10 17 10"></polyline>
+                                <polyline points="1 20 1 14 7 14"></polyline>
+                                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                            </svg> Sincronizar
+                        </button>
+                        <button class="btn-nueva-cita" onclick="showKbUploadModal()">+ Nuevo</button>
+                    </div>
+                </div>
+
+                <div class="agenda-stats-container">
+                    <!-- Total Documentos -->
+                    <div class="agenda-stat-card">
+                        <div class="stat-info">
+                            <div class="stat-title">Total Documentos</div>
+                            <div class="stat-value text-black" id="kb-stat-total">3</div>
+                        </div>
+                        <div class="stat-icon bg-gray-100">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                                fill="none" color="#64748b">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                    <!-- Sincronizados -->
+                    <div class="agenda-stat-card">
+                        <div class="stat-info">
+                            <div class="stat-title">Sincronizados</div>
+                            <div class="stat-value text-green" id="kb-stat-synced">3</div>
+                        </div>
+                        <div class="stat-icon bg-green-100">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                                fill="none">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                    <!-- Pendientes -->
+                    <div class="agenda-stat-card">
+                        <div class="stat-info">
+                            <div class="stat-title">Pendientes</div>
+                            <div class="stat-value text-yellow" id="kb-stat-pending">0</div>
+                        </div>
+                        <div class="stat-icon bg-yellow-100">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                                fill="none">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                    <!-- CategorÃ­as -->
+                    <div class="agenda-stat-card">
+                        <div class="stat-info">
+                            <div class="stat-title">CategorÃ­as</div>
+                            <div class="stat-value text-purple" id="kb-stat-categories">3</div>
+                        </div>
+                        <div class="stat-icon bg-purple-100">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                                fill="none">
+                                <path
+                                    d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z">
+                                </path>
+                                <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kb-content" style="margin: 0 40px 40px 40px;">
+                    <div class="kb-toolbar">
+                        <div class="kb-search-bar input-icon">
+                            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                                fill="none">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            <input type="text" placeholder="Buscar por tÃ­tulo o contenido...">
+                        </div>
+                        <div class="kb-filters">
+                            <select class="agenda-select">
+                                <option>Todas las categorÃ­as</option>
+                            </select>
+                            <select class="agenda-select">
+                                <option>Todos</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="kb-grid" id="kb-grid-container">
+                        <!-- Dynamic Cards will be rendered here -->
+                    </div>
+                </div>
+
+                <!-- Upload Modal -->
+                <div id="kb-upload-modal"
+                    style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; display:none; align-items:center; justify-content:center;">
+                    <div
+                        style="background:white; border-radius:20px; padding:32px; width:480px; max-width:90vw; box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+                        <div
+                            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                            <h2 style="margin:0; font-size:1.2rem; font-weight:700; color:#0f172a;">Subir Documento</h2>
+                            <button onclick="closeKbUploadModal()"
+                                style="background:none; border:none; cursor:pointer; font-size:1.4rem; color:#64748b;">&#10005;</button>
+                        </div>
+
+                        <!-- Drop Zone -->
+                        <div id="kb-drop-zone"
+                            style="border:2px dashed #cbd5e1; border-radius:12px; padding:40px 24px; text-align:center; cursor:pointer; transition:all 0.2s; background:#f8fafc; margin-bottom:20px;"
+                            onclick="document.getElementById('kb-file-input').click()"
+                            ondragover="event.preventDefault(); this.style.borderColor='#6366f1'; this.style.background='#eef2ff';"
+                            ondragleave="this.style.borderColor='#cbd5e1'; this.style.background='#f8fafc';"
+                            ondrop="handleKbFileDrop(event)">
+                            <svg viewBox="0 0 24 24" width="40" height="40" stroke="#6366f1" stroke-width="1.5"
+                                fill="none" style="margin-bottom:12px;">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <p id="kb-drop-label" style="margin:0; color:#64748b; font-size:0.95rem;">Arrastra tu
+                                archivo aquÃ­ o <strong style="color:#6366f1;">haz clic para seleccionar</strong></p>
+                            <p style="margin:8px 0 0; color:#94a3b8; font-size:0.8rem;">PDF, DOCX o TXT &bull; MÃ¡x 10
+                                MB
+                            </p>
+                        </div>
+                        <input type="file" id="kb-file-input" accept=".pdf,.docx,.doc,.txt" style="display:none"
+                            onchange="handleKbFileSelect(this)">
+
+                        <div style="margin-bottom:16px;">
+                            <label
+                                style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:6px;">TÃ­tulo
+                                (opcional)</label>
+                            <input type="text" id="kb-doc-title" placeholder="Ej: Manual de Precios 2026"
+                                style="width:100%; padding:10px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.9rem; outline:none; box-sizing:border-box;">
+                        </div>
+                        <div style="margin-bottom:24px;">
+                            <label
+                                style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:6px;">CategorÃ­a</label>
+                            <select id="kb-doc-category"
+                                style="width:100%; padding:10px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.9rem; outline:none; background:white;">
+                                <option value="general">General</option>
+                                <option value="precios">Precios</option>
+                                <option value="productos">Productos / Servicios</option>
+                                <option value="politicas">PolÃ­ticas</option>
+                                <option value="faq">FAQ</option>
+                                <option value="documento">Documento</option>
+                            </select>
+                        </div>
+
+                        <div id="kb-upload-progress" style="display:none; margin-bottom:16px;">
+                            <div
+                                style="width:100%; background:#f1f5f9; border-radius:8px; overflow:hidden; height:8px;">
+                                <div id="kb-progress-bar"
+                                    style="height:100%; background:linear-gradient(90deg,#6366f1,#8b5cf6); width:0%; transition:width 0.3s; border-radius:8px;">
+                                </div>
+                            </div>
+                            <p id="kb-upload-status"
+                                style="margin:8px 0 0; font-size:0.8rem; color:#6366f1; font-weight:600;">Procesando...
+                            </p>
+                        </div>
+
+                        <div style="display:flex; gap:12px; justify-content:flex-end;">
+                            <button onclick="closeKbUploadModal()"
+                                style="padding:10px 20px; border-radius:10px; border:1.5px solid #e2e8f0; background:white; color:#64748b; font-weight:600; cursor:pointer;">Cancelar</button>
+                            <button id="kb-upload-btn" onclick="submitKbUpload()"
+                                style="padding:10px 24px; border-radius:10px; border:none; background:linear-gradient(135deg,#6366f1,#8b5cf6); color:white; font-weight:600; cursor:pointer;">Subir
+                                Documento</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Test Modal -->
+                <div id="kb-search-modal"
+                    style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+                    <div
+                        style="background:white; border-radius:20px; padding:32px; width:560px; max-width:90vw; box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+                        <div
+                            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <h2 style="margin:0; font-size:1.2rem; font-weight:700; color:#0f172a;">Probar BÃºsqueda IA
+                            </h2>
+                            <button onclick="closeKbSearchModal()"
+                                style="background:none; border:none; cursor:pointer; font-size:1.4rem; color:#64748b;">&#10005;</button>
+                        </div>
+                        <p style="margin:0 0 20px; font-size:0.85rem; color:#64748b;">Escribe un mensaje como si fuera
+                            un cliente de WhatsApp y verÃ¡s cÃ³mo responderÃ­a el bot con tu base de conocimiento.</p>
+
+                        <!-- Chat preview -->
+                        <div id="kb-chat-preview"
+                            style="background:#f0f4f8; border-radius:12px; min-height:120px; max-height:300px; overflow-y:auto; padding:16px; margin-bottom:16px; display:flex; flex-direction:column; gap:10px;">
+                            <div style="text-align:center; color:#94a3b8; font-size:0.8rem;">El resultado aparecerÃ¡
+                                aquÃ­...</div>
+                        </div>
+
+                        <div style="display:flex; gap:10px;">
+                            <input type="text" id="kb-test-input" placeholder="Ej: Â¿CuÃ¡nto cuesta el plan bÃ¡sico?"
+                                style="flex:1; padding:12px 16px; border:1.5px solid #e2e8f0; border-radius:12px; font-size:0.9rem; outline:none;"
+                                onkeypress="if(event.key==='Enter') runKbSearchTest()">
+                            <button id="kb-test-btn" onclick="runKbSearchTest()"
+                                style="padding:12px 20px; border-radius:12px; border:none; background:linear-gradient(135deg,#6366f1,#8b5cf6); color:white; font-weight:600; cursor:pointer; white-space:nowrap;">
+                                &#9658; Enviar
+                            </button>
+                        </div>
+                        <p id="kb-test-meta" style="margin:8px 0 0; font-size:0.75rem; color:#94a3b8;"></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reportes View Section -->
+            <section id="reportes-view" class="hidden reportes-view">
+                <div class="reportes-header"
+                    style="padding: 32px 40px; display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div class="reportes-header-titles">
+                        <h1 style="font-size: 1.5rem; font-weight: 700; color: #0f172a; margin: 0 0 8px 0;">Reportes
+                        </h1>
+                        <p style="font-size: 0.9rem; color: #64748b; margin: 0;">Vista general de rendimiento y
+                            conversiones.</p>
+                    </div>
+                    <div class="reportes-status" style="margin-top: 8px;">
+                        <span style="font-size: 0.85rem; color: #64748b; font-weight: 500;">AtribuciÃ³n de
+                            anuncios:</span> <span
+                            style="font-size: 0.85rem; color: #10b981; font-weight: 600;">Activa</span>
+                    </div>
+                </div>
+
+                <div class="reportes-stats-container"
+                    style="padding: 0 40px; display: flex; gap: 16px; margin-bottom: 24px;">
+                    <!-- Conversaciones -->
+                    <div class="reportes-stat-card"
+                        style="background: white; flex: 1; border-radius: 12px; padding: 20px; display: flex; align-items: center; gap: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);">
+                        <div class="stat-icon bg-blue-100"
+                            style="width: 40px; height: 40px; background: #eff6ff; display: flex; justify-content: center; align-items: center; border-radius: 10px;">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                                fill="none" color="#3b82f6">
+                                <path
+                                    d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="stat-info-horizontal">
+                            <div class="stat-title"
+                                style="font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: 4px;">
+                                Conversaciones</div>
+                            <div class="stat-value text-black" id="reportes-stat-conversaciones"
+                                style="font-size: 1.5rem; font-weight: 700; color: #0f172a;">6</div>
+                        </div>
+                    </div>
+                    <!-- Leads calificados -->
+                    <div class="reportes-stat-card"
+                        style="background: white; flex: 1; border-radius: 12px; padding: 20px; display: flex; align-items: center; gap: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);">
+                        <div class="stat-icon bg-green-100"
+                            style="width: 40px; height: 40px; background: #ecfdf5; display: flex; justify-content: center; align-items: center; border-radius: 10px;">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                                fill="none" color="#10b981">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                        <div class="stat-info-horizontal">
+                            <div class="stat-title"
+                                style="font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: 4px;">Leads
+                                calificados</div>
+                            <div class="stat-value text-black" id="reportes-stat-calificados"
+                                style="font-size: 1.5rem; font-weight: 700; color: #0f172a;">0</div>
+                        </div>
+                    </div>
+                    <!-- Citas agendadas -->
+                    <div class="reportes-stat-card"
+                        style="background: white; flex: 1; border-radius: 12px; padding: 20px; display: flex; align-items: center; gap: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);">
+                        <div class="stat-icon bg-purple-100"
+                            style="width: 40px; height: 40px; background: #f3e8ff; display: flex; justify-content: center; align-items: center; border-radius: 10px;">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                                fill="none" color="#9333ea">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                        </div>
+                        <div class="stat-info-horizontal">
+                            <div class="stat-title"
+                                style="font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: 4px;">Citas
+                                agendadas</div>
+                            <div class="stat-value text-black" id="reportes-stat-citas"
+                                style="font-size: 1.5rem; font-weight: 700; color: #0f172a;">3</div>
+                        </div>
+                    </div>
+                    <!-- Leads atribuidos -->
+                    <div class="reportes-stat-card"
+                        style="background: white; flex: 1; border-radius: 12px; padding: 20px; display: flex; align-items: center; gap: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);">
+                        <div class="stat-icon bg-yellow-100"
+                            style="width: 40px; height: 40px; background: #fffbeb; display: flex; justify-content: center; align-items: center; border-radius: 10px;">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                                fill="none" color="#f59e0b">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                            </svg>
+                        </div>
+                        <div class="stat-info-horizontal">
+                            <div class="stat-title"
+                                style="font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: 4px;">Leads
+                                atribuidos</div>
+                            <div class="stat-value text-black" id="reportes-stat-atribuidos"
+                                style="font-size: 1.5rem; font-weight: 700; color: #0f172a;">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reportes-content"
+                    style="margin: 0 40px 40px 40px; background: white; border-radius: 12px; padding: 32px; box-shadow: 0 2px 4px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);">
+                    <div class="reportes-attribution-header"
+                        style="display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 24px; border-bottom: 1px solid #f1f5f9; margin-bottom: 40px;">
+                        <div>
+                            <h2 style="font-size: 1.1rem; font-weight: 700; color: #0f172a; margin: 0 0 4px 0;">
+                                AtribuciÃ³n de Anuncios</h2>
+                            <p style="font-size: 0.85rem; color: #94a3b8; margin: 0;">Leads generados por campaÃ±a
+                                publicitaria</p>
+                        </div>
+                        <div class="reportes-badge-activo"
+                            style="background: #ecfdf5; color: #10b981; padding: 4px 12px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">
+                            Activo</div>
+                    </div>
+                    <!-- ═══ CAMPAÑAS DE ATRIBUCIÓN ═══ -->
+                    <div
+                        style="background:white; border-radius:16px; padding:28px; box-shadow:0 2px 4px rgba(0,0,0,0.04);">
+                        <div
+                            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                            <div>
+                                <h3 style="margin:0 0 4px 0; font-size:1.1rem; font-weight:700; color:#0f172a;">
+                                    📡 Atribuci&#243;n de Campa&#241;as
+                                </h3>
+                                <p style="margin:0; font-size:0.85rem; color:#64748b;">
+                                    Crea campa&#241;as con palabras clave. El bot las detecta autom&#225;ticamente
+                                    cuando un lead llega desde un anuncio.
+                                </p>
+                            </div>
+                            <button onclick="openCampaignModal()"
+                                style="background:linear-gradient(135deg,#6366f1,#8b5cf6); border:none; color:white; padding:10px 18px; border-radius:10px; font-weight:600; font-size:0.85rem; cursor:pointer; display:flex; align-items:center; gap:8px;">
+                                + Nueva Campa&#241;a
+                            </button>
+                        </div>
+
+                        <!-- Info box -->
+                        <div
+                            style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:14px 18px; margin-bottom:20px; font-size:0.83rem; color:#166534; line-height:1.6;">
+                            <strong>&#128161; &#191;C&#243;mo funciona?</strong><br>
+                            1. Crea una campa&#241;a con una <strong>palabra clave</strong> (ej: <code
+                                style="background:#dcfce7; padding:1px 6px; border-radius:4px;">FB-ENE</code>)<br>
+                            2. En Facebook Ads → <em>Click-to-WhatsApp</em>, configura el mensaje prefijado: <em>"Hola,
+                                vengo de [FB-ENE]"</em><br>
+                            3. Cuando el lead llegue, el bot detecta esa keyword y <strong>etiqueta autom&#225;ticamente
+                                al lead</strong> con la campa&#241;a.
+                        </div>
+
+                        <!-- Campaign stats grid -->
+                        <div id="campaigns-stats-grid"
+                            style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:12px; margin-bottom:20px;">
+                            <!-- Populated by JS -->
+                            <div style="text-align:center; color:#94a3b8; padding:24px; grid-column:1/-1;">
+                                Cargando campa&#241;as...
+                            </div>
+                        </div>
+
+                        <!-- Campaign table -->
+                        <table style="width:100%; border-collapse:collapse; font-size:0.87rem;">
+                            <thead>
+                                <tr style="border-bottom:2px solid #f1f5f9;">
+                                    <th
+                                        style="text-align:left; padding:10px 12px; color:#64748b; font-weight:600; font-size:0.78rem; text-transform:uppercase;">
+                                        Campa&#241;a</th>
+                                    <th
+                                        style="text-align:left; padding:10px 12px; color:#64748b; font-weight:600; font-size:0.78rem; text-transform:uppercase;">
+                                        Keyword</th>
+                                    <th
+                                        style="text-align:left; padding:10px 12px; color:#64748b; font-weight:600; font-size:0.78rem; text-transform:uppercase;">
+                                        Fuente</th>
+                                    <th
+                                        style="text-align:center; padding:10px 12px; color:#64748b; font-weight:600; font-size:0.78rem; text-transform:uppercase;">
+                                        Leads</th>
+                                    <th
+                                        style="text-align:center; padding:10px 12px; color:#64748b; font-weight:600; font-size:0.78rem; text-transform:uppercase;">
+                                        Estado</th>
+                                    <th style="padding:10px 12px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="campaigns-table-body">
+                                <tr>
+                                    <td colspan="6" style="text-align:center; padding:24px; color:#94a3b8;">Cargando...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <style>
+                        #funnel-atribucion-toggle:not(.active) {
+                            background: #cbd5e1 !important;
+                        }
+
+                        #funnel-atribucion-toggle:not(.active) .toggle-circle {
+                            right: 22px !important;
+                        }
+
+                        .campaign-stat-card {
+                            background: #f8fafc;
+                            border-radius: 12px;
+                            padding: 16px;
+                            border: 2px solid transparent;
+                            transition: all 0.2s;
+                        }
+
+                        .campaign-stat-card:hover {
+                            border-color: var(--camp-color, #6366f1);
+                            transform: translateY(-2px);
+                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                        }
+                    </style>
+                </div>
+
+                <!-- Campaign Create/Edit Modal -->
+                <div id="campaign-modal"
+                    style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:3000; align-items:center; justify-content:center;">
+                    <div
+                        style="background:white; border-radius:20px; padding:32px; width:480px; max-width:90vw; box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+                        <div
+                            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                            <h2 id="campaign-modal-title"
+                                style="margin:0; font-size:1.2rem; font-weight:700; color:#0f172a;">Nueva Campa&#241;a
+                            </h2>
+                            <button onclick="closeCampaignModal()"
+                                style="background:none; border:none; cursor:pointer; font-size:1.4rem; color:#64748b;">&#10005;</button>
+                        </div>
+                        <input type="hidden" id="campaign-edit-id">
+
+                        <div style="margin-bottom:14px;">
+                            <label
+                                style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:6px;">Nombre
+                                de la Campa&#241;a *</label>
+                            <input type="text" id="campaign-name" placeholder="Ej: Facebook Ads Enero 2026"
+                                style="width:100%; padding:10px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.9rem; outline:none; box-sizing:border-box;">
+                        </div>
+
+                        <div style="margin-bottom:14px;">
+                            <label
+                                style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:6px;">Palabra
+                                Clave (Keyword) *
+                                <span style="font-size:0.75rem; color:#94a3b8; font-weight:400;">— el bot buscar&#225;
+                                    esto en cada mensaje</span>
+                            </label>
+                            <input type="text" id="campaign-keyword" placeholder="Ej: FB-ENE, GOOGLE, IG-STORIES"
+                                style="width:100%; padding:10px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.9rem; outline:none; box-sizing:border-box; font-family:monospace; letter-spacing:0.05em;"
+                                oninput="this.value=this.value.toUpperCase()">
+                        </div>
+
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
+                            <div>
+                                <label
+                                    style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:6px;">Fuente</label>
+                                <select id="campaign-source"
+                                    style="width:100%; padding:10px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.9rem; outline:none; background:white;">
+                                    <option value="facebook">&#128142; Facebook</option>
+                                    <option value="instagram">&#128247; Instagram</option>
+                                    <option value="google">&#128269; Google</option>
+                                    <option value="tiktok">&#127999; TikTok</option>
+                                    <option value="email">&#128140; Email</option>
+                                    <option value="organic">&#127807; Org&#225;nico</option>
+                                    <option value="other">&#127381; Otro</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label
+                                    style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:6px;">Color</label>
+                                <input type="color" id="campaign-color" value="#6366f1"
+                                    style="width:100%; height:42px; border:1.5px solid #e2e8f0; border-radius:10px; cursor:pointer; padding:4px;">
+                            </div>
+                        </div>
+
+                        <div
+                            style="background:#f8fafc; border-radius:10px; padding:12px 14px; margin-bottom:20px; font-size:0.82rem; color:#475569;">
+                            <strong>Ejemplo de uso:</strong> En tu anuncio de Facebook, configura el mensaje prefijado
+                            como:<br>
+                            <code id="campaign-example"
+                                style="color:#6366f1; font-size:0.85rem;">Hola, vengo de [KEYWORD] &#128075;</code>
+                        </div>
+
+                        <div style="display:flex; gap:12px; justify-content:flex-end;">
+                            <button onclick="closeCampaignModal()"
+                                style="padding:10px 20px; border-radius:10px; border:1.5px solid #e2e8f0; background:white; color:#64748b; font-weight:600; cursor:pointer;">Cancelar</button>
+                            <button onclick="saveCampaign()"
+                                style="padding:10px 24px; border-radius:10px; border:none; background:linear-gradient(135deg,#6366f1,#8b5cf6); color:white; font-weight:600; cursor:pointer;">Guardar
+                                Campa&#241;a</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Plantillas View Section -->
+            <section id="plantillas-view" class="hidden plantillas-view">
+                <div class="plantillas-header"
+                    style="padding: 32px 40px; display: flex; flex-direction: column; gap: 8px;">
+                    <h1 style="font-size: 1.5rem; font-weight: 700; color: #0f172a; margin: 0;">Plantillas de WhatsApp
+                    </h1>
+                    <p style="font-size: 0.9rem; color: #64748b; margin: 0;">Gestiona y envÃ­a plantillas aprobadas por
+                        Meta.</p>
+                </div>
+
+                <div class="plantillas-layout"
+                    style="display: flex; gap: 32px; padding: 0 40px 40px 40px; flex-grow: 1;">
+                    <!-- Left: Available Templates -->
+                    <div
+                        style="flex: 1; background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);">
+                        <div
+                            style="display:flex; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 24px; align-items:center;">
+                            <h2 style="font-size: 1.1rem; font-weight: 600; color: #0f172a; margin: 0;">Plantillas
+                                disponibles</h2>
+                            <button
+                                style="background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer;">+
+                                Crear Plantilla</button>
+                        </div>
+
+                        <div id="plantillas-list" style="display: flex; flex-direction: column; gap: 12px;">
+                            <!-- Templates injected here -->
+                        </div>
+                    </div>
+
+                    <!-- Right: Editor/Preview -->
+                    <div style="width: 360px; display: flex; flex-direction: column; gap: 24px;">
+                        <div id="plantillas-preview-panel"
+                            style="background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);">
+                            <div style="margin-bottom: 16px;">
+                                <div id="pt-preview-title"
+                                    style="font-weight: 600; color: #0f172a; font-size: 0.95rem; margin-bottom: 4px;">--
+                                </div>
+                                <div id="pt-preview-subtitle"
+                                    style="font-size: 0.8rem; color: #64748b; font-weight: 500;">--</div>
+                            </div>
+                            <!-- Bubble -->
+                            <div
+                                style="background: #eafff6; border-radius: 12px; padding: 16px; border: 1px solid #a7f3d0; margin-bottom: 24px;">
+                                <div id="pt-preview-body"
+                                    style="font-size: 0.85rem; color: #065f46; line-height: 1.5; white-space: pre-wrap;">
+                                    Selecciona una plantilla para ver su contenido.</div>
+                            </div>
+
+                            <!-- Send controls -->
+                            <div style="margin-bottom: 16px;">
+                                <label
+                                    style="display: block; font-size: 0.85rem; font-weight: 600; color: #0f172a; margin-bottom: 8px;">Seleccionar
+                                    contactos</label>
+                                <select id="pt-contact-select" multiple
+                                    style="width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px; font-size: 0.85rem; color: #0f172a; outline: none; height: 120px;">
+                                    <!-- Contacts injected here -->
+                                </select>
+                                <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 8px;">MantÃ©n Ctrl/Cmd para
+                                    seleccionar varios</p>
+                            </div>
+
+                            <!-- Schedule controls -->
+                            <div style="margin-bottom: 16px;">
+                                <label
+                                    style="display: block; font-size: 0.85rem; font-weight: 600; color: #0f172a; margin-bottom: 8px;">Programar
+                                    envÃ­o (Opcional)</label>
+                                <input type="datetime-local" id="pt-schedule-date"
+                                    style="width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px; font-size: 0.85rem; color: #0f172a; outline: none;">
+                            </div>
+
+                            <button id="pt-btn-send" onclick="sendPlantilla()"
+                                style="width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px; background: #10b981; color: white; border: none; padding: 12px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: background 0.2s;">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                                    fill="none">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+                                Enviar o Programar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Funnel View Section -->
+            <section id="funnel-view" class="hidden funnel-view"
+                style="flex-grow: 1; background: #f8fafc; display: flex; flex-direction: column; overflow-y: auto;">
+                <div class="funnel-header"
+                    style="padding: 32px 40px; display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div style="display: flex; gap: 16px; align-items: center;">
+                        <div
+                            style="width: 48px; height: 48px; background: #eff6ff; border-radius: 12px; display: flex; justify-content: center; align-items: center; color: #3b82f6;">
+                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
+                                fill="none">
+                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h1 style="font-size: 1.5rem; font-weight: 700; color: #0f172a; margin: 0 0 4px 0;">Funnel
+                                de Ventas</h1>
+                            <p style="font-size: 0.9rem; color: #64748b; margin: 0;">Configura el flujo de conversaciÃ³n
+                                de tu agente IA paso a paso.</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <!-- View Toggles -->
+                        <div style="display: flex; background: #e2e8f0; padding: 4px; border-radius: 8px;">
+                            <button id="btn-view-list" onclick="switchFunnelView('list')" class="view-toggle-btn active"
+                                style="padding: 6px 12px; border: none; border-radius: 6px; background: white; box-shadow: 0 1px 2px rgba(0,0,0,0.1); color: #0f172a; cursor: pointer; transition: all 0.2s;">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                                    fill="none">
+                                    <line x1="8" y1="6" x2="21" y2="6"></line>
+                                    <line x1="8" y1="12" x2="21" y2="12"></line>
+                                    <line x1="8" y1="18" x2="21" y2="18"></line>
+                                    <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                                    <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                    <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                                </svg>
+                            </button>
+                            <button id="btn-view-canvas" onclick="switchFunnelView('canvas')" class="view-toggle-btn"
+                                style="padding: 6px 12px; border: none; border-radius: 6px; background: transparent; color: #64748b; cursor: pointer; transition: all 0.2s;">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                                    fill="none">
+                                    <rect x="3" y="3" width="6" height="6" rx="1"></rect>
+                                    <rect x="15" y="3" width="6" height="6" rx="1"></rect>
+                                    <rect x="9" y="15" width="6" height="6" rx="1"></rect>
+                                    <line x1="6" y1="9" x2="12" y2="15"></line>
+                                    <line x1="18" y1="9" x2="12" y2="15"></line>
+                                </svg>
+                            </button>
+                        </div>
+                        <div style="width: 1px; height: 24px; background: #cbd5e1; margin: 0 4px;"></div>
+                        <button onclick="openFunnelTemplateModal()"
+                            style="display: flex; align-items: center; gap: 8px; background: white; border: 1px solid #cbd5e1; color: #475569; padding: 10px 16px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;">
+                            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                                fill="none">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="3" y1="9" x2="21" y2="9"></line>
+                                <line x1="9" y1="21" x2="9" y2="9"></line>
+                            </svg>
+                            Usar Plantilla
+                        </button>
+                        <button onclick="openAddFunnelStep()"
+                            style="display: flex; align-items: center; gap: 8px; background: #10b981; border: none; color: white; padding: 10px 16px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;">
+                            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                                fill="none">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Agregar Paso
+                        </button>
+                    </div>
+                </div>
+
+                <div class="funnel-content"
+                    style="padding: 0 40px 40px 40px; display: flex; flex-direction: column; gap: 24px;">
+                    <!-- Banner info -->
+                    <div
+                        style="background: #f5f3ff; border: 1px solid #e0e7ff; border-radius: 12px; padding: 16px 20px; display: flex; gap: 16px; align-items: flex-start;">
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                            fill="none" color="#6366f1" style="flex-shrink: 0; margin-top:2px;">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        <div>
+                            <h4 style="margin: 0 0 4px 0; color: #4338ca; font-size: 0.95rem; font-weight: 600;">
+                                &#191;C&#243;mo
+                                funciona?</h4>
+                            <p style="margin: 0; color: #4f46e5; font-size: 0.85rem; line-height: 1.5;">El agente IA
+                                sigue estos pasos y <strong>rastrea objetivos</strong> en cada fase. Aunque el cliente
+                                se vaya por las ramas, el agente mantiene el enfoque en los objetivos pendientes y
+                                avanza autom&#225;ticamente cuando se cumplen.</p>
+                        </div>
+                    </div>
+
+                    <!-- Estado WhatsApp -->
+                    <div
+                        style="background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h3
+                                style="margin: 0; display: flex; align-items: center; gap: 8px; font-size: 1.05rem; font-weight: 600; color: #0f172a;">
+                                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                                    fill="none" color="#10b981">
+                                    <path
+                                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                    </path>
+                                </svg>
+                                Estado de WhatsApp
+                            </h3>
+                            <a href="#"
+                                style="font-size: 0.85rem; color: #64748b; text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 4px;">Abrir
+                                en Meta <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor"
+                                    stroke-width="2" fill="none">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg></a>
+                        </div>
+                        <div style="display: flex; gap: 24px;">
+                            <div
+                                style="background: #f8fafc; border-radius: 8px; padding: 16px; display: flex; align-items: center; gap: 16px; flex: 1;">
+                                <div
+                                    style="width: 36px; height: 36px; background: #d1fae5; color: #059669; border-radius: 8px; display: flex; justify-content: center; align-items: center;">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor"
+                                        stroke-width="2" fill="none">
+                                        <path
+                                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 2px;">NÃºmero</div>
+                                    <div style="font-size: 0.95rem; font-weight: 600; color: #0f172a;">+1 561-336-8602
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                style="background: #f8fafc; border-radius: 8px; padding: 16px; display: flex; align-items: center; gap: 16px; flex: 1;">
+                                <div
+                                    style="width: 36px; height: 36px; background: #f1f5f9; color: #64748b; border-radius: 8px; display: flex; justify-content: center; align-items: center;">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor"
+                                        stroke-width="2" fill="none">
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 2px;">Calidad</div>
+                                    <div style="font-size: 0.95rem; font-weight: 600; color: #0f172a;">Desconocida</div>
+                                </div>
+                            </div>
+                            <div
+                                style="background: #f8fafc; border-radius: 8px; padding: 16px; display: flex; align-items: center; gap: 16px; flex: 1;">
+                                <div
+                                    style="width: 36px; height: 36px; background: #f1f5f9; color: #64748b; border-radius: 8px; display: flex; justify-content: center; align-items: center;">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor"
+                                        stroke-width="2" fill="none">
+                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 2px;">VerificaciÃ³n
+                                    </div>
+                                    <div style="font-size: 0.95rem; font-weight: 600; color: #0f172a;">Verificado</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Funnel List View (Table) -->
+                    <div id="funnel-list-view" style="display: block;">
+                        <div
+                            style="background: white; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03); overflow: hidden;">
+                            <table class="crm-table" style="margin: 0; width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 60px; text-align: center;">ORDEN</th>
+                                        <th>PASO</th>
+                                        <th>SIGUIENTE</th>
+                                        <th>DESCRIPCI&#211;N</th>
+                                        <th>ACCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="funnel-list-body">
+                                    <!-- Dynamic rows injected by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Step Edit Modal -->
+                    <div id="funnel-step-modal"
+                        style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:2000; align-items:center; justify-content:center;">
+                        <div
+                            style="background:white; border-radius:20px; padding:32px; width:520px; max-width:90vw; box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+                            <div
+                                style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                                <h2 id="funnel-step-modal-title"
+                                    style="margin:0; font-size:1.2rem; font-weight:700; color:#0f172a;">Editar Paso</h2>
+                                <button onclick="closeFunnelStepModal()"
+                                    style="background:none; border:none; cursor:pointer; font-size:1.4rem; color:#64748b;">&#10005;</button>
+                            </div>
+                            <input type="hidden" id="funnel-step-id">
+                            <div style="margin-bottom:16px;">
+                                <label
+                                    style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:6px;">Nombre
+                                    del Paso *</label>
+                                <input type="text" id="funnel-step-title" placeholder="Ej: Bienvenida y CalificaciÃ³n"
+                                    style="width:100%; padding:10px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.9rem; outline:none; box-sizing:border-box;">
+                            </div>
+                            <div style="margin-bottom:16px;">
+                                <label
+                                    style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:6px;">DescripciÃ³n
+                                    / InstrucciÃ³n para el bot</label>
+                                <textarea id="funnel-step-desc" rows="3"
+                                    placeholder="Ej: Detectar el problema principal del cliente..."
+                                    style="width:100%; padding:10px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.9rem; outline:none; resize:vertical; box-sizing:border-box;"></textarea>
+                            </div>
+                            <div style="margin-bottom:24px;">
+                                <label
+                                    style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:6px;">Tipo
+                                    de Nodo</label>
+                                <select id="funnel-step-type"
+                                    style="width:100%; padding:10px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.9rem; outline:none; background:white;">
+                                    <option value="trigger">âš¡ Disparador (Inicio)</option>
+                                    <option value="action">ðŸ¤– AcciÃ³n (IA responde)</option>
+                                    <option value="end">ðŸ Fin de Flujo</option>
+                                </select>
+                            </div>
+                            <div style="display:flex; gap:12px; justify-content:flex-end;">
+                                <button onclick="closeFunnelStepModal()"
+                                    style="padding:10px 20px; border-radius:10px; border:1.5px solid #e2e8f0; background:white; color:#64748b; font-weight:600; cursor:pointer;">Cancelar</button>
+                                <button onclick="saveFunnelStep()"
+                                    style="padding:10px 24px; border-radius:10px; border:none; background:linear-gradient(135deg,#3b82f6,#6366f1); color:white; font-weight:600; cursor:pointer;">Guardar
+                                    Paso</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Funnel Canvas View (Interactive Map) -->
+                    <div id="funnel-canvas-view" class="hidden funnel-canvas-container"
+                        style="position: relative; min-height: 600px; background-color: #f1f5f9; background-image: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 20px 20px; border-radius: 12px; overflow: hidden; box-shadow: inset 0 2px 10px rgba(0,0,0,0.05); user-select: none;">
+
+                        <svg id="canvas-lines"
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: all; z-index: 1;">
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5"
+                                    orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8" />
+                                </marker>
+                            </defs>
+                        </svg>
+
+                        <!-- Draggable Nodes Container -->
+                        <div id="canvas-nodes"
+                            style="position: absolute; top:0; left:0; width: 100%; height: 100%; z-index: 2;">
+                            <!-- Nodes will be injected here via JS -->
+                        </div>
+
+                        <!-- Canvas Zoom / Center Controls -->
+                        <div
+                            style="position: absolute; bottom: 16px; left: 16px; background: white; border-radius: 8px; padding: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; gap: 4px; z-index: 10;">
+                            <button onclick="zoomCanvas(1.1)"
+                                style="width: 32px; height: 32px; border: none; background: transparent; cursor: pointer; color: #475569; border-radius: 6px; display: flex; align-items: center; justify-content: center;"
+                                onmouseover="this.style.background='#f1f5f9'"
+                                onmouseout="this.style.background='transparent'">
+                                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2"
+                                    fill="none">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </button>
+                            <button onclick="zoomCanvas(0.9)"
+                                style="width: 32px; height: 32px; border: none; background: transparent; cursor: pointer; color: #475569; border-radius: 6px; display: flex; align-items: center; justify-content: center;"
+                                onmouseover="this.style.background='#f1f5f9'"
+                                onmouseout="this.style.background='transparent'">
+                                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2"
+                                    fill="none">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </button>
+                            <div style="width: 1px; background: #e2e8f0; margin: 4px;"></div>
+                            <button onclick="resetCanvasView()"
+                                style="width: 32px; height: 32px; border: none; background: transparent; cursor: pointer; color: #475569; border-radius: 6px; display: flex; align-items: center; justify-content: center;"
+                                onmouseover="this.style.background='#f1f5f9'"
+                                onmouseout="this.style.background='transparent'">
+                                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2"
+                                    fill="none">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+    </div>
+    </section>
+    </main>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="app.js"></script>
+
+    <!-- Funnel Template Modal -->
+    <div id="funnel-template-modal" class="modal-overlay hidden"
+        style="position: fixed; top: 0; left: 0;right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
+        <div class="modal-content"
+            style="background: white; border-radius: 16px; width: 950px; max-width: 95%; height: 85vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
+            <!-- Modal header -->
+            <div
+                style="padding: 24px 32px; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: #111827; margin: 0 0 6px 0;">Seleccionar
+                        plantilla de funnel</h2>
+                    <p style="font-size: 0.95rem; color: #6b7280; margin: 0;">Elige una estructura base probada y
+                        personalÃ­zala segÃºn tus necesidades.</p>
+                </div>
+                <button onclick="closeFunnelTemplateModal()"
+                    style="background: none; border: none; cursor: pointer; color: #9ca3af; padding: 8px; border-radius: 8px;">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div style="display: flex; flex-grow: 1; overflow: hidden;">
+                <!-- Left sidebar (Templates list) -->
+                <div
+                    style="width: 320px; border-right: 1px solid #e5e7eb; padding: 24px 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #fafafa;">
+
+                    <div class="funnel-template-card">
+                        <div class="ft-icon" style="background: white; border-color: #e5e7eb; font-size:1.4rem;">ðŸ“‹
+                        </div>
+                        <div class="ft-info">
+                            <h4>Taveras Solutions (Agencia IA/Automation)</h4>
+                            <p>Funnel especializado de Erik Tavera...</p>
+                        </div>
+                    </div>
+
+                    <div class="funnel-template-card active">
+                        <div class="ft-icon" style="background: white; border-color: #c7d2fe; font-size:1.4rem;">ðŸ 
+                        </div>
+                        <div class="ft-info">
+                            <h4>Inmobiliaria / Bienes RaÃ­ces</h4>
+                            <p>Funnel para captaciÃ³n de leads i...</p>
+                        </div>
+                    </div>
+
+                    <div class="funnel-template-card">
+                        <div class="ft-icon" style="background: white; border-color: #e5e7eb; font-size:1.4rem;">ðŸ›’
+                        </div>
+                        <div class="ft-info">
+                            <h4>E-commerce / Tienda Online</h4>
+                            <p>Funnel para atenciÃ³n al cliente de ti...</p>
+                        </div>
+                    </div>
+
+                    <div class="funnel-template-card">
+                        <div class="ft-icon" style="background: white; border-color: #e5e7eb; font-size:1.4rem;">ðŸ’¼
+                        </div>
+                        <div class="ft-info">
+                            <h4>Servicios Profesionales</h4>
+                            <p>Funnel para captaciÃ³n de clientes d...</p>
+                        </div>
+                    </div>
+
+                    <div class="funnel-template-card">
+                        <div class="ft-icon" style="background: white; border-color: #e5e7eb; font-size:1.4rem;">ðŸ“š
+                        </div>
+                        <div class="ft-info">
+                            <h4>EducaciÃ³n / Cursos</h4>
+                            <p>Funnel para inscripciÃ³n a cursos, tal...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right content (Template details) -->
+                <div style="flex-grow: 1; padding: 32px 40px; overflow-y: auto; background: white;">
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: #111827; margin: 0 0 8px 0;">Inmobiliaria /
+                        Bienes RaÃ­ces</h3>
+                    <p style="font-size: 0.95rem; color: #6b7280; margin: 0 0 32px 0;">Funnel para captaciÃ³n de leads
+                        interesados en compra, venta o alquiler de propiedades.</p>
+
+                    <div style="display: flex; flex-direction: column; gap: 24px;">
+
+                        <div class="ft-step">
+                            <div class="ft-step-number">1</div>
+                            <div class="ft-step-content">
+                                <h5>Bienvenida</h5>
+                                <p>Primer contacto, dar la bienvenida y detectar el interÃ©s inicial.</p>
+                                <div class="ft-tags">
+                                    <span class="ft-tag">Objetivos:</span>
+                                    <span class="ft-tag green">saludo hecho</span>
+                                    <span class="ft-tag green">intencion identificada</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ft-step">
+                            <div class="ft-step-number">2</div>
+                            <div class="ft-step-content">
+                                <h5>CalificaciÃ³n</h5>
+                                <p>Obtener informaciÃ³n sobre presupuesto, zona, tipo de inmueble buscado.</p>
+                                <div class="ft-tags">
+                                    <span class="ft-tag">Objetivos:</span>
+                                    <span class="ft-tag green">nombre capturado</span>
+                                    <span class="ft-tag green">contacto capturado</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ft-step">
+                            <div class="ft-step-number">3</div>
+                            <div class="ft-step-content">
+                                <h5>PresentaciÃ³n de Opciones</h5>
+                                <p>Presentar opciones disponibles que coincidan con los criterios del cliente.</p>
+                                <div class="ft-tags">
+                                    <span class="ft-tag">Objetivos:</span>
+                                    <span class="ft-tag green">opciones presentadas</span>
+                                    <span class="ft-tag green">interes detectado</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div
+                style="padding: 20px 32px; border-top: 1px solid #e5e7eb; display: flex; justify-content: flex-end; gap: 12px; background: #f9fafb;">
+                <button onclick="closeFunnelTemplateModal()"
+                    style="padding: 10px 20px; border: 1px solid #d1d5db; background: white; border-radius: 8px; font-weight: 600; color: #374151; cursor: pointer;">Cancelar</button>
+                <button onclick="applyFunnelTemplate()"
+                    style="padding: 10px 20px; border: none; background: #10b981; border-radius: 8px; font-weight: 600; color: white; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    Aplicar Plantilla
+                </button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
