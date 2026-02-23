@@ -554,12 +554,12 @@
                             </div>
                         </div>
 
-                        <!-- Respuestas AutomÃ¡ticas (Legacy compat) -->
+                        <!-- Respuestas Automáticas (Legacy compat) -->
                         <div class="agent-card">
                             <div class="agent-card-header"
                                 style="display: flex; justify-content: space-between; align-items: center;">
                                 <div>
-                                    <h2>Respuestas AutomÃ¡ticas</h2>
+                                    <h2>Respuestas Automáticas</h2>
                                     <p>Respuestas directas basadas en reglas (Opcional).</p>
                                 </div>
                                 <div>
@@ -568,7 +568,8 @@
                                         <span
                                             style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary);">Activo:</span>
                                         <label class="bot-switch">
-                                            <input type="checkbox" id="auto-replies-toggle" checked>
+                                            <input type="checkbox" id="auto-replies-toggle" onchange="saveAgentConfig()"
+                                                checked>
                                             <span class="bot-slider"></span>
                                         </label>
                                     </div>
@@ -581,7 +582,7 @@
                                     <input type="text" id="response-input" class="agent-input" style="flex: 2;"
                                         placeholder="Respuesta...">
                                     <button class="btn-primary-green" onclick="addReply()"
-                                        style="padding: 10px 16px;">AÃ±adir</button>
+                                        style="padding: 10px 16px;">Añadir</button>
                                 </div>
                                 <div id="replies-list" class="replies-list"
                                     style="margin-top: 16px; display: flex; flex-direction: column; gap: 8px;"></div>
@@ -596,7 +597,7 @@
                         <div class="agent-card">
                             <div class="agent-card-header">
                                 <h2>Tipo de Negocio</h2>
-                                <p>Selecciona la categorÃ­a que mejor describe tu negocio.</p>
+                                <p>Selecciona la categoría que mejor describe tu negocio.</p>
                             </div>
                             <div class="agent-form-row" style="grid-template-columns: 1fr;">
                                 <div class="agent-form-group" style="max-width: 400px;">
