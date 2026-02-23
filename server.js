@@ -937,12 +937,17 @@ app.post('/api/send-template', async (req, res) => {
 // Socket.io Connection
 io.on('connection', (socket) => {
     console.log('Frontend connected');
-    // Send current state
-    if (clientStatus === 'qr_ready' && qrCodeData) {
-        socket.emit('status_update', { status: 'qr_ready', logic: qrCodeData });
-    } else {
-        socket.emit('status_update', { status: clientStatus });
-    }
+
+    // Always send full current state on connect
+    const logic = (clientStatus === 'qr_ready' && qrCodeData) ? qrCodeData : null;
+    socket.emit('status_update', { status: clientStatus, logic });
+    socket.emit('bot_status_changed', { enabled: isBotEnabled });
+
+    // Allow frontend to request current status at any time
+    socket.on('request_status', () => {
+        const logic = (clientStatus === 'qr_ready' && qrCodeData) ? qrCodeData : null;
+        socket.emit('status_update', { status: clientStatus, logic });
+    });
 });
 
 const PORT = process.env.PORT || 3000;

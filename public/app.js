@@ -26,10 +26,16 @@ let currentChatId = null;
 let automatedReplies = {};
 let globalBotEnabled = true;
 
+// WhatsApp connection state (cached from socket)
+let lastWaStatus = null;
+let lastWaQrData = null;
+
 // --- SOCKET EVENTS ---
 
 socket.on('status_update', (data) => {
     console.log('Status:', data);
+    lastWaStatus = data.status;
+    lastWaQrData = data.logic || null;
     updateConnectionStatus(data.status, data.logic);
 });
 
@@ -664,17 +670,22 @@ function showSection(id) {
 }
 
 // Fetches current WhatsApp status from server and updates the UI immediately
-async function refreshWaStatus() {
-    try {
-        const res = await fetch('/api/wa-status');
-        const data = await res.json();
-        updateConnectionStatus(data.status, data.qrData);
-    } catch (e) {
-        console.error('Error fetching WA status', e);
-        const waStatus = document.getElementById('wa-status-text');
-        if (waStatus) waStatus.textContent = 'Error al conectar con el servidor.';
+function refreshWaStatus() {
+    const waStatusText = document.getElementById('wa-status-text');
+
+    if (lastWaStatus) {
+        // Use cached state from last socket event
+        updateConnectionStatus(lastWaStatus, lastWaQrData);
+    } else {
+        // No socket data yet — request it from server via socket
+        if (waStatusText) waStatusText.textContent = 'Esperando conexión...';
+        socket.emit('request_status');
     }
 }
+
+// Server can push status on demand
+socket.on('status_update', (data) => { /* already handled at top */ });
+
 
 // ════════════════════════════════════════════════
 //  CAMPAIGN ATTRIBUTION
