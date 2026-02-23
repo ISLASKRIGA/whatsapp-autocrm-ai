@@ -1,0 +1,10 @@
+node_modules/
+.env
+botStatus.json
+replies.json
+history.json
+appointments.json
+knowledge.json
+campaigns.json
+.DS_Store
+*.log

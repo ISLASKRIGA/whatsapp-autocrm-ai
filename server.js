@@ -15,8 +15,15 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// Middleware
-app.use(express.static('public'));
+// Middleware - no-cache so browsers always get fresh JS/CSS
+app.use(express.static('public', {
+    etag: false,
+    lastModified: false,
+    setHeaders: (res) => {
+        res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+    }
+}));
 app.use(express.json());
 
 // Load or initialize automated replies configuration

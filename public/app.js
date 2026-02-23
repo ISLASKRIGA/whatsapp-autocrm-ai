@@ -671,16 +671,12 @@ function showSection(id) {
 
 // Fetches current WhatsApp status from server and updates the UI immediately
 function refreshWaStatus() {
-    const waStatusText = document.getElementById('wa-status-text');
-
+    // 1. Apply cached state immediately if available
     if (lastWaStatus) {
-        // Use cached state from last socket event
         updateConnectionStatus(lastWaStatus, lastWaQrData);
-    } else {
-        // No socket data yet — request it from server via socket
-        if (waStatusText) waStatusText.textContent = 'Esperando conexión...';
-        socket.emit('request_status');
     }
+    // 2. Always request fresh state from server via socket (will fire status_update)
+    socket.emit('request_status');
 }
 
 // Server can push status on demand
