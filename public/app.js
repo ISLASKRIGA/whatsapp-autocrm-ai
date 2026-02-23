@@ -659,6 +659,20 @@ function showSection(id) {
         if (funnelView) funnelView.classList.add('hidden');
         const waSection = document.getElementById('section-whatsapp');
         if (waSection) { waSection.classList.remove('hidden'); }
+        refreshWaStatus(); // Always fetch fresh status when opening this section
+    }
+}
+
+// Fetches current WhatsApp status from server and updates the UI immediately
+async function refreshWaStatus() {
+    try {
+        const res = await fetch('/api/wa-status');
+        const data = await res.json();
+        updateConnectionStatus(data.status, data.qrData);
+    } catch (e) {
+        console.error('Error fetching WA status', e);
+        const waStatus = document.getElementById('wa-status-text');
+        if (waStatus) waStatus.textContent = 'Error al conectar con el servidor.';
     }
 }
 

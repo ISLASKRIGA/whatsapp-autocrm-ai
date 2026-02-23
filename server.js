@@ -593,6 +593,11 @@ app.get('/api/bot-status', (req, res) => {
     res.json({ enabled: isBotEnabled });
 });
 
+// WhatsApp current status (for polling on section open)
+app.get('/api/wa-status', (req, res) => {
+    res.json({ status: clientStatus, qrData: qrCodeData });
+});
+
 app.post('/api/bot-status', (req, res) => {
     isBotEnabled = !!req.body.enabled;
     fs.writeFileSync(BOT_STATE_FILE, JSON.stringify({ enabled: isBotEnabled }, null, 2));
