@@ -274,11 +274,33 @@
                             style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;"></p>
                     </div>
 
-                    <p
-                        style="font-size: 0.8rem; color: var(--text-secondary); text-align: center; max-width: 320px; line-height: 1.5;">
-                        Abre WhatsApp en tu teléfono → <strong>Dispositivos vinculados</strong> → <strong>Vincular
-                            dispositivo</strong> y escanea el código.
-                    </p>
+                    <!-- Action buttons -->
+                    <div id="wa-action-buttons"
+                        style="display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%;">
+                        <!-- Shows when disconnected/scanning -->
+                        <div id="wa-btn-scanning"
+                            style="display:flex; flex-direction:column; align-items:center; gap:8px; width:100%;">
+                            <p
+                                style="font-size: 0.8rem; color: var(--text-secondary); text-align: center; max-width: 320px; line-height: 1.5; margin: 0;">
+                                Abre WhatsApp → <strong>Dispositivos vinculados</strong> → <strong>Vincular
+                                    dispositivo</strong> y escanea el código.
+                            </p>
+                        </div>
+
+                        <!-- Shows when connected -->
+                        <button id="wa-btn-disconnect" onclick="disconnectWhatsApp()"
+                            style="display:none; background: #fee2e2; color: #dc2626; border: none; border-radius: 10px; padding: 10px 24px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: background 0.2s;"
+                            onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'">
+                            🔌 Desconectar WhatsApp
+                        </button>
+
+                        <!-- Shows when disconnected (after a previous connection) -->
+                        <button id="wa-btn-reconnect" onclick="reconnectWhatsApp()"
+                            style="display:none; background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 10px; padding: 10px 24px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s;"
+                            onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+                            🔄 Reconectar WhatsApp
+                        </button>
+                    </div>
                 </div>
             </div>
 

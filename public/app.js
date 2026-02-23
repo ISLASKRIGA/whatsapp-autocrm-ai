@@ -292,6 +292,12 @@ function updateConnectionStatus(status, logic) {
     const waStatus = document.getElementById('wa-status-text');
     const waConnected = document.getElementById('wa-connected-box');
     const waQrBox = document.getElementById('wa-qr-box');
+    const waBtnScanning = document.getElementById('wa-btn-scanning');
+    const waBtnDisconnect = document.getElementById('wa-btn-disconnect');
+    const waBtnReconnect = document.getElementById('wa-btn-reconnect');
+
+    // Helper
+    const showBtn = (el, show) => { if (el) el.style.display = show ? (el.tagName === 'BUTTON' ? 'inline-block' : 'flex') : 'none'; };
 
     switch (status) {
         case 'disconnected':
@@ -299,11 +305,14 @@ function updateConnectionStatus(status, logic) {
             statusText.textContent = 'Desconectado';
             qrPanel.style.display = 'flex';
             retryBtn.style.display = 'inline-block';
-            if (waStatus) waStatus.textContent = 'Desconectado. Genera un nuevo QR.';
+            if (waStatus) waStatus.textContent = 'Sesión cerrada. Reconecta para vincular de nuevo.';
             if (waConnected) waConnected.style.display = 'none';
             if (waQrBox) waQrBox.style.display = 'flex';
             if (waQrSpinner) waQrSpinner.style.display = 'block';
             if (waQrImage) { waQrImage.style.display = 'none'; waQrImage.src = ''; }
+            showBtn(waBtnScanning, false);
+            showBtn(waBtnDisconnect, false);
+            showBtn(waBtnReconnect, true);
             break;
         case 'qr_ready':
             statusDot.classList.add('waiting');
@@ -312,39 +321,78 @@ function updateConnectionStatus(status, logic) {
             if (logic) {
                 qrImage.src = logic;
                 qrImage.style.display = 'block';
-                // Update new section QR
                 if (waQrImage) { waQrImage.src = logic; waQrImage.style.display = 'block'; }
                 if (waQrSpinner) waQrSpinner.style.display = 'none';
                 if (waStatus) waStatus.textContent = 'Escanea el código QR con tu teléfono';
                 if (waConnected) waConnected.style.display = 'none';
                 if (waQrBox) waQrBox.style.display = 'flex';
             }
+            showBtn(waBtnScanning, true);
+            showBtn(waBtnDisconnect, false);
+            showBtn(waBtnReconnect, false);
             break;
         case 'connecting':
             statusDot.classList.add('connecting');
             statusText.textContent = 'Conectando...';
             qrPanel.style.display = 'flex';
             if (waStatus) waStatus.textContent = 'Conectando...';
+            showBtn(waBtnScanning, false);
+            showBtn(waBtnDisconnect, false);
+            showBtn(waBtnReconnect, false);
             break;
         case 'ready':
             statusDot.classList.add('connected');
             statusText.textContent = 'Conectado';
             qrPanel.style.display = 'none';
-            // Show connected state in new section
             if (waStatus) waStatus.textContent = '¡Número conectado y activo!';
             if (waQrBox) waQrBox.style.display = 'none';
-            if (waConnected) { waConnected.style.display = 'flex'; }
+            if (waConnected) waConnected.style.display = 'flex';
+            showBtn(waBtnScanning, false);
+            showBtn(waBtnDisconnect, true);
+            showBtn(waBtnReconnect, false);
             break;
         default: // error
             statusDot.classList.add('disconnected');
             statusText.textContent = 'Error: ' + logic;
-            if (logic && logic.includes('generate')) {
-                qrPanel.style.display = 'flex';
-            }
+            if (logic && logic.includes('generate')) qrPanel.style.display = 'flex';
             if (waStatus) waStatus.textContent = 'Error de conexión';
+            showBtn(waBtnScanning, false);
+            showBtn(waBtnDisconnect, false);
+            showBtn(waBtnReconnect, true);
             break;
     }
 }
+
+async function disconnectWhatsApp() {
+    const btn = document.getElementById('wa-btn-disconnect');
+    if (btn) { btn.disabled = true; btn.textContent = 'Desconectando...'; }
+    try {
+        await axios.post('/api/disconnect');
+        // UI will update via socket event
+    } catch (e) {
+        console.error('Error disconnecting', e);
+    } finally {
+        if (btn) { btn.disabled = false; btn.textContent = '🔌 Desconectar WhatsApp'; }
+    }
+}
+
+async function reconnectWhatsApp() {
+    const btn = document.getElementById('wa-btn-reconnect');
+    if (btn) { btn.disabled = true; btn.textContent = 'Reconectando...'; }
+    const waStatus = document.getElementById('wa-status-text');
+    if (waStatus) waStatus.textContent = 'Iniciando conexión...';
+    try {
+        await axios.post('/api/reconnect');
+        // UI will update via socket events (qr_ready → ready)
+    } catch (e) {
+        console.error('Error reconnecting', e);
+        if (waStatus) waStatus.textContent = 'Error al reconectar. Intenta de nuevo.';
+    } finally {
+        if (btn) { btn.disabled = false; btn.textContent = '🔄 Reconectar WhatsApp'; }
+    }
+}
+
+
 
 function renderChatItem(chat) {
     // Check if exists to update or append

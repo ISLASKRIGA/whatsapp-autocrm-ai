@@ -432,14 +432,15 @@ async function handleMessage(msg) {
         }
 
         // Automated Reply / AI Logic
-        if (isBotEnabled && !isFromMe && !isDuplicate && !chat.isGroup) {
+        if (!isFromMe && !isDuplicate && !chat.isGroup) {
             const rawBody = msg.body || '';
             let responded = false;
 
             console.log(`[Bot Logic] Mensaje Entrante de ${senderName}: "${rawBody}"`);
 
             // 1. First prioritize EXACT matches (Respuestas Automáticas)
-            if (agentSettings['agentSettings_auto-replies'] !== 'false') {
+            const autoRepliesEnabled = String(agentSettings['agentSettings_auto-replies']) !== 'false';
+            if (autoRepliesEnabled) {
                 for (const [key, responseText] of Object.entries(automatedReplies)) {
                     if (!key || !responseText) continue;
                     const cleanKey = key.trim().toLowerCase();
@@ -453,7 +454,7 @@ async function handleMessage(msg) {
             }
 
             // 2. Fallback to Gemini AI or Simulated Smart Bot if no exact match
-            if (!responded) {
+            if (!responded && isBotEnabled) {
 
 
                 // Check if we should use Gemini AI (if API key is somewhat defined / mocked)
@@ -543,7 +544,7 @@ Responde al cliente de manera corta, resolutiva y supremamente natural (como si 
                     console.error("[AiLogic] Error connecting to Gemini API:", aiError);
                 }
 
-            } // End of if (!responded)
+            } // End of if (!responded && isBotEnabled)
         }
     } catch (err) {
         console.error("Error processing message:", err);
@@ -597,6 +598,32 @@ app.post('/api/bot-status', (req, res) => {
     fs.writeFileSync(BOT_STATE_FILE, JSON.stringify({ enabled: isBotEnabled }, null, 2));
     io.emit('bot_status_changed', { enabled: isBotEnabled });
     res.json({ success: true, enabled: isBotEnabled });
+});
+
+// WhatsApp Disconnect / Reconnect API
+app.post('/api/disconnect', async (req, res) => {
+    try {
+        updateStatus('disconnected');
+        await client.logout();
+        res.json({ success: true, message: 'Session closed.' });
+    } catch (err) {
+        console.error('Error during logout:', err);
+        // Even if logout fails, emit disconnected
+        updateStatus('disconnected');
+        res.json({ success: true, message: 'Forced disconnect.' });
+    }
+});
+
+app.post('/api/reconnect', async (req, res) => {
+    try {
+        updateStatus('connecting');
+        await client.initialize();
+        res.json({ success: true, message: 'Reconnecting...' });
+    } catch (err) {
+        console.error('Error during reconnect:', err);
+        updateStatus('error', err.message);
+        res.status(500).json({ success: false, error: err.message });
+    }
 });
 
 // ── CAMPAIGNS API ──────────────────────────────────────────
