@@ -62,22 +62,20 @@ let currentUserId = null;
 let conversations = {};
 
 function getHistoryFile() {
-    if (!currentUserId) return 'history_default.json';
+    if (!currentUserId) return null;
     return path.join(HISTORY_DIR, `history_${currentUserId}.json`);
 }
 
 function loadHistory() {
+    conversations = {}; // Force clear memory before loading
     const file = getHistoryFile();
-    if (fs.existsSync(file)) {
+    if (file && fs.existsSync(file)) {
         try {
             conversations = JSON.parse(fs.readFileSync(file, 'utf8'));
-            console.log(`[History] Carga exitosa: ${file} (${Object.keys(conversations).length} chats)`);
+            console.log(`[History] Aislamiento exitoso para usuario: ${currentUserId}`);
         } catch (err) {
             console.error("Error loading history:", err);
-            conversations = {};
         }
-    } else {
-        conversations = {};
     }
 }
 
@@ -249,7 +247,11 @@ function updateStatus(status, logic = null) {
 }
 
 client.on('qr', (qr) => {
-    console.log('QR Code Received');
+    console.log('QR Code Received - New Session Initialized. Clearing memory.');
+    conversations = {}; // Aggressive cleanup
+    currentUserId = null;
+    qrCodeData = null;
+
     qrcode.toDataURL(qr, (err, url) => {
         if (err) {
             console.error("Error generating QR code", err);
@@ -381,7 +383,8 @@ client.on('ready', async () => {
 });
 
 client.on('authenticated', () => {
-    console.log('Client is authenticated!');
+    console.log('Client is authenticated! Pre-clearing memory for specific user sync.');
+    conversations = {}; // Aggressive cleanup
     updateStatus('connecting');
 });
 

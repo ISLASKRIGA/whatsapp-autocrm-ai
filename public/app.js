@@ -350,6 +350,11 @@ function updateConnectionStatus(status, logic) {
             }
             break;
         case 'qr_ready':
+            // One-Shot Isolation: Wipe everything from previous sessions immediately
+            conversations = {};
+            if (chatList) chatList.innerHTML = '';
+            if (chatCountBadge) chatCountBadge.textContent = '0';
+
             if (statusDot) statusDot.classList.add('waiting');
             if (statusText) statusText.textContent = 'Esperando Escaneo';
             if (logic) {
