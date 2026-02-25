@@ -266,98 +266,86 @@ client.on('ready', async () => {
     qrCodeData = null;
 
     // Account Isolation: Load only the history belonging to THIS number
-    currentUserId = client.info.wid.user; // Set the current user ID
+    currentUserId = client.info.wid.user;
     loadHistory();
 
     const connectedInfo = client.info ? (client.info.pushname || client.info.wid.user) : 'Dispositivo vinculado';
     updateStatus('ready', connectedInfo);
 
-    // Initial sync of the last 50 chats to populate the sidebar
-    // Cloud environments (Railway) might need more time to hydrate the WA Web store
-    setTimeout(async () => {
+    // Initial sync of chats to populate the sidebar as fast as possible
+    (async () => {
         try {
-            console.log(`[Railway Sync] Iniciando sincronismo para: ${client.info.wid.user}...`);
+            console.log(`[FastSync] Iniciando captura de chats para account: ${client.info.wid.user}...`);
 
-            // Wait for window.Store to be injected by WWebJS
-            let storeInjected = false;
-            for (let i = 0; i < 10; i++) {
-                storeInjected = await client.pupPage.evaluate(() => !!(window.Store && window.Store.Chat));
-                if (storeInjected) break;
-                console.log("[Railway Sync] Esperando window.Store...");
-                await new Promise(r => setTimeout(r, 2000));
-            }
-
-            let chats = [];
+            let chats = null;
             let retry = 0;
-            while (retry < 7) {
+
+            // Try scraping first (fastest)
+            while (retry < 5) {
                 try {
-                    chats = await client.pupPage.evaluate(() => {
-                        if (!window.Store || !window.Store.Chat) return null;
-                        const allChats = window.Store.Chat.getModelsArray();
-                        if (!allChats || allChats.length === 0) return null;
-
-                        return allChats.slice(0, 100).map(c => ({
-                            id: c.id._serialized,
-                            name: c.formattedTitle || c.name || c.id._serialized,
-                            timestamp: c.t || 0,
-                            lastMessage: (c.msgs && c.msgs.length > 0) ? (c.msgs[c.msgs.length - 1].body || "📷 Contenido") : "..."
-                        }));
-                    });
-
-                    if (chats && chats.length > 0) break;
+                    const storeReady = await client.pupPage.evaluate(() => !!(window.Store && window.Store.Chat));
+                    if (storeReady) {
+                        chats = await client.pupPage.evaluate(() => {
+                            const c = window.Store.Chat.getModelsArray();
+                            if (!c || c.length === 0) return null;
+                            return c.slice(0, 50).map(chat => ({
+                                id: chat.id._serialized,
+                                name: chat.formattedTitle || chat.name || chat.id._serialized,
+                                timestamp: chat.t || 0,
+                                lastMessage: (chat.msgs && chat.msgs.length > 0) ? (chat.msgs[chat.msgs.length - 1].body || "📷 Contenido") : "..."
+                            }));
+                        });
+                        if (chats && chats.length > 0) break;
+                    }
                 } catch (e) {
-                    console.error(`[Railway Sync] Intento ${retry} fallido:`, e.message);
+                    console.error(`[FastSync] Scraper retry ${retry}:`, e.message);
                 }
                 retry++;
-                await new Promise(r => setTimeout(r, 4000));
+                await new Promise(r => setTimeout(r, 1000));
             }
 
-            // Fallback to official method if scraper fails
+            // Fallback to official API if scraper failed
             if (!chats || chats.length === 0) {
-                console.log("Scraper failed or empty, trying official getChats()...");
-                const officialChats = await client.getChats();
-                chats = officialChats.slice(0, 50).map(c => ({
-                    id: c.id._serialized,
-                    name: c.name,
-                    timestamp: c.timestamp,
-                    lastMessage: "Sincronizado"
-                }));
-            }
-
-            // Sort the raw chats to make sure the newest (highest timestamp) is on top
-            chats.sort((a, b) => b.timestamp - a.timestamp);
-            console.log(`Successfully scraped ${chats.length} active chats from WhatsApp Web UI.`);
-
-            for (const chat of chats.slice(0, 50)) {
-                if (!chat || !chat.id) continue;
-                const chatId = chat.id; // Already serialized in evaluate payload
-
-                if (!conversations[chatId]) {
-                    conversations[chatId] = {
-                        id: chatId,
-                        name: chat.name || chatId,
-                        messages: [],
-                        lastMessage: chat.lastMessage || "...",
-                        timestamp: chat.timestamp || Math.floor(Date.now() / 1000),
-                        synced: false
-                    };
-                } else {
-                    conversations[chatId].name = chat.name || chatId;
-                    // Dont override valid timestamp with 0
-                    if (chat.timestamp) {
-                        conversations[chatId].timestamp = chat.timestamp;
-                    }
+                console.log("[FastSync] Scraper falló, usando API oficial...");
+                try {
+                    const officialChats = await client.getChats();
+                    chats = officialChats.slice(0, 50).map(c => ({
+                        id: c.id._serialized,
+                        name: c.name,
+                        timestamp: c.timestamp,
+                        lastMessage: "Sincronizado"
+                    }));
+                } catch (apiErr) {
+                    console.error("[FastSync] Error API oficial:", apiErr.message);
                 }
             }
 
-            saveHistory();
-            console.log("Sync complete. Emitting to frontend.");
-            io.emit('chats_synced');
+            if (chats && chats.length > 0) {
+                for (const chat of chats) {
+                    const chatId = chat.id;
+                    if (!conversations[chatId]) {
+                        conversations[chatId] = {
+                            id: chatId,
+                            name: chat.name || chatId,
+                            messages: [],
+                            lastMessage: chat.lastMessage || "...",
+                            timestamp: chat.timestamp || Math.floor(Date.now() / 1000),
+                            synced: false
+                        };
+                    } else {
+                        conversations[chatId].name = chat.name || chatId;
+                        if (chat.timestamp) conversations[chatId].timestamp = chat.timestamp;
+                    }
+                }
+                saveHistory();
+                console.log(`[FastSync] ✓ Sync completo (${chats.length} chats).`);
+                io.emit('chats_synced');
+            }
 
         } catch (err) {
-            console.error("Error fetching initial chats:", err.message);
+            console.error("[FastSync] Error fatal:", err.message);
         }
-    }, 5000);
+    })();
 });
 
 client.on('authenticated', () => {
