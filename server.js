@@ -248,7 +248,8 @@ client.on('qr', (qr) => {
 client.on('ready', async () => {
     console.log('Client is ready!');
     qrCodeData = null;
-    updateStatus('ready');
+    const connectedInfo = client.info ? (client.info.pushname || client.info.wid.user) : 'Dispositivo vinculado';
+    updateStatus('ready', connectedInfo);
 
     // Delay allowing WhatsApp Web's internal store to fully populate.
     setTimeout(async () => {

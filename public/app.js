@@ -84,6 +84,10 @@ async function loadChats() {
         // Reverse array because renderChatItem uses prepend()
         // We want the newest items (index 0) to be prepended LAST, ending up at the true top
         const d = response.data;
+        if (d.length === 0 && lastWaStatus === 'ready') {
+            chatList.innerHTML = '<div class="loading">Sincronizando chats...</div>';
+        }
+
         d.reverse().forEach(chat => {
             renderChatItem(chat);
             if (!conversations[chat.id]) {
@@ -337,7 +341,7 @@ function updateConnectionStatus(status, logic) {
                     </div>
                     <h2 style="color:#1c1c1e; font-size:1.5rem; letter-spacing:-0.03em;">WhatsApp Desconectado</h2>
                     <p style="max-width:320px; line-height:1.5;">La sesión se ha cerrado o el teléfono está fuera de línea. Vincula tu dispositivo para continuar.</p>
-                    <button class="btn-primary-green" onclick="showSection('whatsapp')" style="margin-top:12px; padding:14px 32px; border-radius:14px; font-size:1rem; box-shadow:0 8px 24px rgba(52, 199, 89, 0.2);">
+                    <button class="btn-primary-green" onclick="showSection('whatsapp'); reconnectWhatsApp()" style="margin-top:12px; padding:14px 32px; border-radius:14px; font-size:1rem; box-shadow:0 8px 24px rgba(52, 199, 89, 0.2);">
                         Vincular WhatsApp Ahora
                     </button>
                 `;
@@ -352,6 +356,7 @@ function updateConnectionStatus(status, logic) {
                 if (waStatus) waStatus.textContent = 'Escanea el código QR con tu teléfono';
                 if (waConnected) waConnected.style.display = 'none';
                 if (waQrBox) waQrBox.style.display = 'flex';
+                if (waInstructions) waInstructions.style.display = 'block';
             }
             showBtn(waInstructions, true);
             showBtn(waBtnDisconnect, false);
@@ -365,7 +370,11 @@ function updateConnectionStatus(status, logic) {
         case 'connecting':
             if (statusDot) statusDot.classList.add('connecting');
             if (statusText) statusText.textContent = 'Conectando...';
-            if (waStatus) waStatus.textContent = 'Conectando...';
+            if (waStatus) waStatus.textContent = 'Iniciando sesión...';
+            if (waQrBox) waQrBox.style.display = 'flex';
+            if (waQrSpinner) waQrSpinner.style.display = 'block';
+            if (waQrImage) waQrImage.style.display = 'none';
+            if (waConnected) waConnected.style.display = 'none';
             showBtn(waInstructions, false);
             showBtn(waBtnDisconnect, false);
             showBtn(waBtnReconnect, false);
@@ -380,6 +389,17 @@ function updateConnectionStatus(status, logic) {
             showBtn(waBtnDisconnect, true);
             showBtn(waBtnReconnect, false);
             loadChats(); // Reload chats when connected
+
+            // Display connected number if available (from backend or local logic)
+            const connNumber = document.getElementById('wa-connected-number');
+            if (connNumber && logic) connNumber.textContent = logic;
+
+            // Auto-redirect to conversations after a brief success message
+            setTimeout(() => {
+                if (clientStatus === 'ready') {
+                    showSection('dashboard');
+                }
+            }, 2000);
 
             // Reset placeholder to default
             if (liveFeedView) {

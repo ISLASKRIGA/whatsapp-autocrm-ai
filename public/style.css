@@ -160,6 +160,24 @@ body {
     background: radial-gradient(circle, rgba(52, 199, 89, 0.15) 0%, transparent 70%);
     z-index: 1;
     pointer-events: none;
+    animation: pulseGlow 2s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+    0% {
+        transform: translate(-50%, -50%) scale(0.9);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(0.9);
+        opacity: 0.5;
+    }
 }
 
 .wa-connected-box {
