@@ -915,14 +915,14 @@
                 <div class="crm-content">
                     <div class="crm-filters">
                         <span class="filter-label">Filtrar:</span>
-                        <button class="filter-pill active">Todos</button>
-                        <button class="filter-pill">Nuevos</button>
-                        <button class="filter-pill">Contactados</button>
-                        <button class="filter-pill">Calificados</button>
-                        <button class="filter-pill">Interesados</button>
-                        <button class="filter-pill">Negociación</button>
-                        <button class="filter-pill">Cerrados</button>
-                        <button class="filter-pill">Perdidos</button>
+                        <button class="filter-pill active" onclick="filterClients('Todos', this)">Todos</button>
+                        <button class="filter-pill" onclick="filterClients('Nuevo', this)">Nuevos</button>
+                        <button class="filter-pill" onclick="filterClients('Contactado', this)">Contactados</button>
+                        <button class="filter-pill" onclick="filterClients('Calificado', this)">Calificados</button>
+                        <button class="filter-pill" onclick="filterClients('Interesado', this)">Interesados</button>
+                        <button class="filter-pill" onclick="filterClients('Negociación', this)">Negociación</button>
+                        <button class="filter-pill" onclick="filterClients('Cerrado', this)">Cerrados</button>
+                        <button class="filter-pill" onclick="filterClients('Perdido', this)">Perdidos</button>
                     </div>
 
                     <div class="crm-table-container">

@@ -426,8 +426,11 @@ async function handleMessage(msg) {
                 timestamp: conversations[chatId].timestamp
             });
 
-            // Trigger OS Notification
-            if (!isFromMe) {
+            const nowSecs = Math.floor(Date.now() / 1000);
+            const isRecentMessage = msg.timestamp && (nowSecs - msg.timestamp < 60);
+
+            // Trigger OS Notification solo para mensajes RECIENTES
+            if (!isFromMe && isRecentMessage) {
                 notifier.notify({
                     title: `Nuevo mensaje de ${conversations[chatId].name}`,
                     message: messageData.body || 'Nuevo archivo adjunto/sticker',
@@ -438,8 +441,11 @@ async function handleMessage(msg) {
             }
         }
 
+        const nowSecsForBot = Math.floor(Date.now() / 1000);
+        const isRecentMessageForBot = msg.timestamp && (nowSecsForBot - msg.timestamp < 60);
+
         // Automated Reply / AI Logic
-        if (!isFromMe && !isDuplicate && !chat.isGroup) {
+        if (!isFromMe && !isDuplicate && !chat.isGroup && isRecentMessageForBot) {
             const rawBody = msg.body || '';
             let responded = false;
 
@@ -862,6 +868,10 @@ Tu respuesta:`;
 
 // Chat APIs
 app.get('/api/chats', (req, res) => {
+    // Only return chats if connected
+    if (clientStatus !== 'ready') {
+        return res.json([]);
+    }
     // Return summary list of chats sorted by recent activity
     const chatList = Object.values(conversations).map(c => ({
         id: c.id,
@@ -874,6 +884,9 @@ app.get('/api/chats', (req, res) => {
 });
 
 app.get('/api/chats/:id', async (req, res) => {
+    if (clientStatus !== 'ready') {
+        return res.status(503).json({ error: "WhatsApp not connected" });
+    }
     const chatId = req.params.id;
     if (conversations[chatId]) {
         // Lazy-load messages if we haven't fetched them yet
@@ -908,6 +921,9 @@ app.get('/api/chats/:id', async (req, res) => {
 });
 
 app.post('/api/send-message', async (req, res) => {
+    if (clientStatus !== 'ready') {
+        return res.status(503).json({ error: "WhatsApp not connected" });
+    }
     const { chatId, message } = req.body;
     if (!chatId || !message) return res.status(400).json({ error: "Missing chatId or message" });
 
@@ -921,6 +937,9 @@ app.post('/api/send-message', async (req, res) => {
 });
 
 app.post('/api/send-template', async (req, res) => {
+    if (clientStatus !== 'ready') {
+        return res.status(503).json({ error: "WhatsApp not connected" });
+    }
     const { chatIds, templateText } = req.body;
     if (!chatIds || !Array.isArray(chatIds) || !templateText) {
         return res.status(400).json({ error: "Missing chatIds or templateText" });

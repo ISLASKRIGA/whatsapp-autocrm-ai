@@ -23,6 +23,7 @@ let conversations = {}; // { chatId: { messages: [], ... } }
 let currentChatId = null;
 let automatedReplies = {};
 let globalBotEnabled = true;
+let currentCrmFilter = 'Todos';
 
 // WhatsApp connection state (cached from socket)
 let lastWaStatus = null;
@@ -316,6 +317,14 @@ function updateConnectionStatus(status, logic) {
             showBtn(waBtnScanning, false);
             showBtn(waBtnDisconnect, false);
             showBtn(waBtnReconnect, true);
+
+            // Clear chats on disconnect
+            conversations = {};
+            if (chatList) chatList.innerHTML = '';
+            if (chatCountBadge) chatCountBadge.textContent = '0';
+            currentChatId = null;
+            chatView.classList.add('hidden');
+            liveFeedView.classList.remove('hidden');
             break;
         case 'qr_ready':
             if (statusDot) statusDot.classList.add('waiting');
@@ -330,6 +339,11 @@ function updateConnectionStatus(status, logic) {
             showBtn(waBtnScanning, true);
             showBtn(waBtnDisconnect, false);
             showBtn(waBtnReconnect, false);
+
+            // Also clear if waiting for QR (not ready yet)
+            conversations = {};
+            if (chatList) chatList.innerHTML = '';
+            if (chatCountBadge) chatCountBadge.textContent = '0';
             break;
         case 'connecting':
             if (statusDot) statusDot.classList.add('connecting');
@@ -348,6 +362,7 @@ function updateConnectionStatus(status, logic) {
             showBtn(waBtnScanning, false);
             showBtn(waBtnDisconnect, true);
             showBtn(waBtnReconnect, false);
+            loadChats(); // Reload chats when connected
             break;
         default: // error
             if (statusDot) statusDot.classList.add('disconnected');
@@ -856,6 +871,28 @@ if (typeof socket !== 'undefined') {
 }
 
 
+function getConsistentStatus(chat) {
+    if (chat.status) return chat.status;
+    const statuses = ['Nuevo', 'Contactado', 'Calificado', 'Interesado', 'Negociación', 'Cerrado', 'Perdido'];
+    let hash = 0;
+    const str = chat.id || "";
+    for (let i = 0; i < str.length; i++) {
+        hash = ((hash << 5) - hash) + str.charCodeAt(i);
+        hash |= 0;
+    }
+    return statuses[Math.abs(hash) % statuses.length];
+}
+
+function filterClients(filter, element) {
+    currentCrmFilter = filter;
+
+    // Update active UI state
+    document.querySelectorAll('.filter-pill').forEach(btn => btn.classList.remove('active'));
+    if (element) element.classList.add('active');
+
+    renderClientsList();
+}
+
 function renderClientsList() {
     const tbody = document.getElementById('crm-table-body');
     const totalBadge = document.getElementById('crm-total-badge');
@@ -865,11 +902,39 @@ function renderClientsList() {
     if (!tbody) return;
     tbody.innerHTML = '';
 
-    const chatsArray = Object.values(conversations).sort((a, b) => b.timestamp - a.timestamp);
+    let chatsArray = Object.values(conversations).sort((a, b) => b.timestamp - a.timestamp);
 
-    if (totalBadge) totalBadge.textContent = `${chatsArray.length} contactos`;
-    if (totalStat) totalStat.textContent = chatsArray.length;
+    // Filter by tab
+    if (currentCrmFilter !== 'Todos') {
+        chatsArray = chatsArray.filter(chat => getConsistentStatus(chat) === currentCrmFilter);
+    }
+
+    if (totalBadge) totalBadge.textContent = `${Object.keys(conversations).length} contactos`;
+    if (totalStat) totalStat.textContent = Object.keys(conversations).length;
     if (resultsCount) resultsCount.textContent = `${chatsArray.length} resultados`;
+
+    // Calculate individual stats for the cards
+    const stats = {
+        'Nuevo': 0, 'Contactado': 0, 'Calificado': 0, 'Interesado': 0,
+        'Negociación': 0, 'Cerrado': 0, 'Perdido': 0
+    };
+    Object.values(conversations).forEach(c => {
+        const s = getConsistentStatus(c);
+        if (stats[s] !== undefined) stats[s]++;
+    });
+
+    const statMap = {
+        'stat-total': Object.keys(conversations).length,
+        'stat-calificados': stats['Calificado'],
+        'stat-negociacion': stats['Negociación'],
+        'stat-cerrados': stats['Cerrado'],
+        'stat-perdidos': stats['Perdido']
+    };
+
+    for (const [id, val] of Object.entries(statMap)) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+    }
 
     chatsArray.forEach((chat, index) => {
         let nameStr = chat.name || chat.id || '?';
@@ -879,15 +944,21 @@ function renderClientsList() {
         for (let i = 0; i < nameStr.length; i++) { hash = nameStr.charCodeAt(i) + ((hash << 5) - hash); }
         let colorIndex = Math.abs(hash % 5) + 1;
 
-        // Auto determine pseudo-status for demo
-        let statuses = ['Nuevo', 'Interesado', 'En Proceso'];
-        let statusIdx = (chat.timestamp || index) % 3;
-        let status = statuses[statusIdx];
+        let status = getConsistentStatus(chat);
 
-        let bgStatus = status === 'Nuevo' ? '#f3f4f6' : (status === 'Interesado' ? '#fef3c7' : '#e0e7ff');
-        let colStatus = status === 'Nuevo' ? '#6b7280' : (status === 'Interesado' ? '#b45309' : '#4338ca');
+        const statusColors = {
+            'Nuevo': { bg: '#f3f4f6', col: '#6b7280' },
+            'Contactado': { bg: '#e0f2fe', col: '#0369a1' },
+            'Calificado': { bg: '#f3e8ff', col: '#7e22ce' },
+            'Interesado': { bg: '#fef3c7', col: '#b45309' },
+            'Negociación': { bg: '#ffedd5', col: '#c2410c' },
+            'Cerrado': { bg: '#dcfce7', col: '#15803d' },
+            'Perdido': { bg: '#fee2e2', col: '#b91c1c' }
+        };
 
-        let leadScore = ((chat.timestamp || index) % 100);
+        let colors = statusColors[status] || { bg: '#f3f4f6', col: '#6b7280' };
+
+        let leadScore = Math.abs(hash % 100);
         let phoneNumber = chat.id.split('@')[0];
 
         let isBotActive = (index % 4) !== 0;
@@ -914,12 +985,12 @@ function renderClientsList() {
                 </div>
             </td>
             <td>
-                <span style="padding:4px 12px; border-radius:12px; font-size:0.75rem; font-weight:600; background:${bgStatus}; color:${colStatus};">${status}</span>
+                <span style="padding:4px 12px; border-radius:12px; font-size:0.75rem; font-weight:600; background:${colors.bg}; color:${colors.col};">${status}</span>
             </td>
             <td>
                 <div style="display:flex; align-items:center; gap:8px;">
                     <div style="width:60px; height:6px; background:#f3f4f6; border-radius:3px; overflow:hidden;">
-                        <div style="height:100%; width:${leadScore}%; background:${leadScore > 50 ? '#f59e0b' : '#9ca3af'};"></div>
+                        <div style="height:100%; width:${leadScore}%; background:${leadScore > 50 ? '#10b981' : (leadScore > 20 ? '#f59e0b' : '#9ca3af')};"></div>
                     </div>
                     <span style="font-size:0.8rem; font-weight:600; color:var(--text-secondary);">${leadScore}%</span>
                 </div>
@@ -1506,10 +1577,21 @@ function deleteReply(k) {
     saveReplies();
 }
 
-function addReply() {
-    const k = document.getElementById('keyword-input').value;
-    const v = document.getElementById('response-input').value;
-    if (k && v) { automatedReplies[k] = v; renderReplies(); }
+async function addReply() {
+    const kInput = document.getElementById('keyword-input');
+    const vInput = document.getElementById('response-input');
+    const k = kInput.value.trim().toLowerCase();
+    const v = vInput.value.trim();
+
+    if (k && v) {
+        automatedReplies[k] = v;
+        renderReplies();
+        kInput.value = '';
+        vInput.value = '';
+        await saveReplies();
+    } else {
+        alert('Por favor, ingresa tanto la palabra clave como la respuesta.');
+    }
 }
 async function saveReplies() {
     await axios.post('/api/replies', automatedReplies);

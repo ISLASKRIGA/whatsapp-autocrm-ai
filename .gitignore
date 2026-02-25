@@ -8,3 +8,5 @@ knowledge.json
 campaigns.json
 .DS_Store
 *.log
+.wwebjs_auth/
+uploads/
