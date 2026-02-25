@@ -623,12 +623,19 @@ app.post('/api/disconnect', async (req, res) => {
     try {
         updateStatus('disconnected');
         await client.logout();
-        res.json({ success: true, message: 'Session closed.' });
+
+        // Auto-reinitialize to show a new QR code immediately
+        console.log('Session logged out. Re-initializing for new QR...');
+        updateStatus('connecting');
+        client.initialize().catch(e => console.error("Auto-init error:", e));
+
+        res.json({ success: true, message: 'Session closed. Re-initializing...' });
     } catch (err) {
         console.error('Error during logout:', err);
-        // Even if logout fails, emit disconnected
+        // Fallback: try to initialize anyway if logout failed but we want a fresh start
         updateStatus('disconnected');
-        res.json({ success: true, message: 'Forced disconnect.' });
+        client.initialize().catch(e => console.error("Fallback init error:", e));
+        res.json({ success: true, message: 'Forced disconnect and re-init.' });
     }
 });
 

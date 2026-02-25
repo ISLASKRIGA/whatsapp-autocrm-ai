@@ -297,7 +297,7 @@ function updateConnectionStatus(status, logic) {
     const waStatus = document.getElementById('wa-status-text');
     const waConnected = document.getElementById('wa-connected-box');
     const waQrBox = document.getElementById('wa-qr-box');
-    const waBtnScanning = document.getElementById('wa-btn-scanning');
+    const waInstructions = document.getElementById('wa-instructions');
     const waBtnDisconnect = document.getElementById('wa-btn-disconnect');
     const waBtnReconnect = document.getElementById('wa-btn-reconnect');
 
@@ -314,7 +314,7 @@ function updateConnectionStatus(status, logic) {
             if (waQrBox) waQrBox.style.display = 'flex';
             if (waQrSpinner) waQrSpinner.style.display = 'block';
             if (waQrImage) { waQrImage.style.display = 'none'; waQrImage.src = ''; }
-            showBtn(waBtnScanning, false);
+            showBtn(waInstructions, false);
             showBtn(waBtnDisconnect, false);
             showBtn(waBtnReconnect, true);
 
@@ -325,6 +325,23 @@ function updateConnectionStatus(status, logic) {
             currentChatId = null;
             chatView.classList.add('hidden');
             liveFeedView.classList.remove('hidden');
+
+            // Update placeholder to show disconnected state
+            if (liveFeedView) {
+                liveFeedView.innerHTML = `
+                    <div class="empty-icon-box" style="background:rgba(255, 59, 48, 0.1); color:#ff3b30; width:100px; height:100px; border-radius:30px;">
+                        <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="1.5" fill="none">
+                            <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                            <line x1="12" y1="2" x2="12" y2="12"></line>
+                        </svg>
+                    </div>
+                    <h2 style="color:#1c1c1e; font-size:1.5rem; letter-spacing:-0.03em;">WhatsApp Desconectado</h2>
+                    <p style="max-width:320px; line-height:1.5;">La sesión se ha cerrado o el teléfono está fuera de línea. Vincula tu dispositivo para continuar.</p>
+                    <button class="btn-primary-green" onclick="showSection('whatsapp')" style="margin-top:12px; padding:14px 32px; border-radius:14px; font-size:1rem; box-shadow:0 8px 24px rgba(52, 199, 89, 0.2);">
+                        Vincular WhatsApp Ahora
+                    </button>
+                `;
+            }
             break;
         case 'qr_ready':
             if (statusDot) statusDot.classList.add('waiting');
@@ -336,7 +353,7 @@ function updateConnectionStatus(status, logic) {
                 if (waConnected) waConnected.style.display = 'none';
                 if (waQrBox) waQrBox.style.display = 'flex';
             }
-            showBtn(waBtnScanning, true);
+            showBtn(waInstructions, true);
             showBtn(waBtnDisconnect, false);
             showBtn(waBtnReconnect, false);
 
@@ -349,7 +366,7 @@ function updateConnectionStatus(status, logic) {
             if (statusDot) statusDot.classList.add('connecting');
             if (statusText) statusText.textContent = 'Conectando...';
             if (waStatus) waStatus.textContent = 'Conectando...';
-            showBtn(waBtnScanning, false);
+            showBtn(waInstructions, false);
             showBtn(waBtnDisconnect, false);
             showBtn(waBtnReconnect, false);
             break;
@@ -359,16 +376,37 @@ function updateConnectionStatus(status, logic) {
             if (waStatus) waStatus.textContent = '¡Número conectado y activo!';
             if (waQrBox) waQrBox.style.display = 'none';
             if (waConnected) waConnected.style.display = 'flex';
-            showBtn(waBtnScanning, false);
+            showBtn(waInstructions, false);
             showBtn(waBtnDisconnect, true);
             showBtn(waBtnReconnect, false);
             loadChats(); // Reload chats when connected
+
+            // Reset placeholder to default
+            if (liveFeedView) {
+                liveFeedView.innerHTML = `
+                    <div class="empty-icon-box">
+                        <svg viewBox="0 0 24 24" width="40" height="40" stroke="currentColor" stroke-width="1.5" fill="none">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            <circle cx="9" cy="10" r="1.5" fill="currentColor"></circle>
+                            <circle cx="14" cy="10" r="1.5" fill="currentColor"></circle>
+                            <circle cx="19" cy="10" r="1.5" fill="currentColor"></circle>
+                        </svg>
+                    </div>
+                    <h2>Selecciona una conversacion</h2>
+                    <p>Elige un contacto para ver sus mensajes</p>
+                    <div class="keyboard-shortcuts">
+                        <span class="shortcut"><kbd>↑↓</kbd> navegar</span>
+                        <span class="shortcut"><kbd>Enter</kbd> abrir</span>
+                        <span class="shortcut"><kbd>Esc</kbd> volver</span>
+                    </div>
+                `;
+            }
             break;
         default: // error
             if (statusDot) statusDot.classList.add('disconnected');
             if (statusText) statusText.textContent = 'Error: ' + logic;
             if (waStatus) waStatus.textContent = 'Error de conexión';
-            showBtn(waBtnScanning, false);
+            showBtn(waInstructions, false);
             showBtn(waBtnDisconnect, false);
             showBtn(waBtnReconnect, true);
             break;
