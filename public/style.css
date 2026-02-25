@@ -683,15 +683,48 @@ body {
     font-weight: 400;
 }
 
+.chat-item-preview-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-top: 2px;
+}
+
 .chat-item-preview {
     font-size: 0.85rem;
-    color: var(--text-secondary);
+    color: #666;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    flex: 1;
+}
+
+.chat-item-meta {
     display: flex;
     align-items: center;
     gap: 6px;
+}
+
+.pin-icon {
+    color: #8e8e93;
+    display: flex;
+    align-items: center;
+}
+
+.unread-badge {
+    background-color: #34c759;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(52, 199, 89, 0.3);
 }
 
 .preview-tag {

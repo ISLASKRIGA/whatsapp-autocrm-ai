@@ -280,7 +280,7 @@ client.on('ready', async () => {
             let chats = null;
             let retry = 0;
 
-            // Try scraping first (fastest)
+            // Try scraping first (fastest and most detailed)
             while (retry < 5) {
                 try {
                     const storeReady = await client.pupPage.evaluate(() => !!(window.Store && window.Store.Chat));
@@ -288,12 +288,27 @@ client.on('ready', async () => {
                         chats = await client.pupPage.evaluate(() => {
                             const c = window.Store.Chat.getModelsArray();
                             if (!c || c.length === 0) return null;
-                            return c.slice(0, 50).map(chat => ({
-                                id: chat.id._serialized,
-                                name: chat.formattedTitle || chat.name || chat.id._serialized,
-                                timestamp: chat.t || 0,
-                                lastMessage: (chat.msgs && chat.msgs.length > 0) ? (chat.msgs[chat.msgs.length - 1].body || "📷 Contenido") : "..."
-                            }));
+
+                            // Get top 80 chats to ensure we don't miss pins/active ones
+                            return c.slice(0, 80).map(chat => {
+                                let lastMsgText = "...";
+                                if (chat.msgs && chat.msgs.length > 0) {
+                                    const lastMsg = chat.msgs[chat.msgs.length - 1];
+                                    lastMsgText = lastMsg.body || (lastMsg.type === 'image' ? "📷 Foto" : (lastMsg.type === 'video' ? "🎥 Video" : "Contenido"));
+                                }
+
+                                return {
+                                    id: chat.id._serialized,
+                                    name: chat.formattedTitle || chat.name || chat.id._serialized,
+                                    timestamp: chat.t || 0,
+                                    lastMessage: lastMsgText,
+                                    isPinned: chat.pin > 0,
+                                    pinIndex: chat.pin || 0,
+                                    isArchived: chat.archive || false,
+                                    unreadCount: chat.unreadCount || 0,
+                                    isGroup: chat.isGroup || false
+                                };
+                            });
                         });
                         if (chats && chats.length > 0) break;
                     }
@@ -313,7 +328,10 @@ client.on('ready', async () => {
                         id: c.id._serialized,
                         name: c.name,
                         timestamp: c.timestamp,
-                        lastMessage: "Sincronizado"
+                        lastMessage: "Sincronizado",
+                        isPinned: c.pinned || false,
+                        isArchived: c.archived || false,
+                        unreadCount: c.unreadCount || 0
                     }));
                 } catch (apiErr) {
                     console.error("[FastSync] Error API oficial:", apiErr.message);
@@ -321,7 +339,12 @@ client.on('ready', async () => {
             }
 
             if (chats && chats.length > 0) {
+                // Filter out the 'Self' chat (user's own number)
+                const selfId = client.info.wid._serialized;
+
                 for (const chat of chats) {
+                    if (chat.id === selfId) continue;
+
                     const chatId = chat.id;
                     if (!conversations[chatId]) {
                         conversations[chatId] = {
@@ -330,10 +353,19 @@ client.on('ready', async () => {
                             messages: [],
                             lastMessage: chat.lastMessage || "...",
                             timestamp: chat.timestamp || Math.floor(Date.now() / 1000),
+                            isPinned: chat.isPinned || false,
+                            pinIndex: chat.pinIndex || 0,
+                            isArchived: chat.isArchived || false,
+                            unreadCount: chat.unreadCount || 0,
+                            isGroup: chat.isGroup || false,
                             synced: false
                         };
                     } else {
                         conversations[chatId].name = chat.name || chatId;
+                        conversations[chatId].isPinned = chat.isPinned || false;
+                        conversations[chatId].pinIndex = chat.pinIndex || 0;
+                        conversations[chatId].isArchived = chat.isArchived || false;
+                        conversations[chatId].unreadCount = chat.unreadCount || 0;
                         if (chat.timestamp) conversations[chatId].timestamp = chat.timestamp;
                     }
                 }
@@ -913,18 +945,32 @@ Tu respuesta:`;
 
 // Chat APIs
 app.get('/api/chats', (req, res) => {
-    // Only return chats if connected
-    if (clientStatus !== 'ready') {
-        return res.json([]);
-    }
-    // Return summary list of chats sorted by recent activity
-    const chatList = Object.values(conversations).map(c => ({
-        id: c.id,
-        name: c.name,
-        lastMessage: c.lastMessage,
-        timestamp: c.timestamp,
-        formattedTime: new Date(c.timestamp * 1000).toLocaleString()
-    })).sort((a, b) => b.timestamp - a.timestamp);
+    if (clientStatus !== 'ready') return res.json([]);
+
+    // Expert logic: Match WhatsApp Mobile sorting
+    // 1. Filter out archived chats by default
+    // 2. Sort by Pin status (descending pinIndex)
+    // 3. Sort by Timestamp (descending)
+
+    const chatList = Object.values(conversations)
+        .filter(c => !c.isArchived) // Don't show archived chats in main list
+        .map(c => ({
+            id: c.id,
+            name: c.name,
+            lastMessage: c.lastMessage,
+            timestamp: c.timestamp,
+            isPinned: c.isPinned || false,
+            unreadCount: c.unreadCount || 0,
+            formattedTime: new Date(c.timestamp * 1000).toLocaleString()
+        }))
+        .sort((a, b) => {
+            // Sort by pinned status first
+            if (a.isPinned && !b.isPinned) return -1;
+            if (!a.isPinned && b.isPinned) return 1;
+            // If both pinned or both not pinned, sort by time
+            return b.timestamp - a.timestamp;
+        });
+
     res.json(chatList);
 });
 

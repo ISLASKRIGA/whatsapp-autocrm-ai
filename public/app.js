@@ -115,18 +115,20 @@ async function loadChatMessages(chatId) {
 function handleIncomingMessage(data) {
     const { chatId, message, chatName, timestamp } = data;
 
-    // Update state
-    if (!conversations[chatId]) {
-        conversations[chatId] = { id: chatId, name: chatName, messages: [] };
+    // Update UI
+    if (conversations[chatId]) {
+        conversations[chatId].lastMessage = message.body;
+        conversations[chatId].timestamp = timestamp;
+        conversations[chatId].formattedTime = message.formattedTime;
+
+        // If not the current chat, increase unread count locally (optional, sync handles it better)
+        if (currentChatId !== chatId) {
+            conversations[chatId].unreadCount = (conversations[chatId].unreadCount || 0) + 1;
+        }
+
+        // Re-render chat list to maintain expert sorting (Pins first)
+        loadChats();
     }
-
-    conversations[chatId].messages.push(message);
-    conversations[chatId].lastMessage = message.body;
-    conversations[chatId].timestamp = timestamp;
-    conversations[chatId].formattedTime = message.formattedTime;
-
-    // Update UI by re-rendering the chat item (which also moves it to the top)
-    renderChatItem(conversations[chatId]);
 
     if (currentChatId === chatId) {
         appendMessage(message);
@@ -495,14 +497,24 @@ function renderChatItem(chat) {
         }
     }
 
+    let timeStr = chat.formattedTime || '';
+    let pinHtml = chat.isPinned ? `<span class="pin-icon"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M16,12V4H17V2H7V4H8V12L6,14V16H11.2V22H12.8V16H18V14L16,12Z" /></svg></span>` : '';
+    let unreadHtml = (chat.unreadCount > 0) ? `<span class="unread-badge">${chat.unreadCount}</span>` : '';
+
     el.innerHTML = `
         <div class="user-avatar bg-color-${colorIndex}" data-initial="${initial}" data-color="${colorIndex}">${initial}</div>
         <div class="chat-item-content">
             <div class="chat-item-header">
                 <span class="chat-item-name">${nameStr}</span>
-                <span class="chat-item-time">${chat.formattedTime || ''}</span>
+                <span class="chat-item-time">${timeStr}</span>
             </div>
-            <div class="chat-item-preview">${preTag}${chat.lastMessage || '...'}</div>
+            <div class="chat-item-preview-row">
+                <div class="chat-item-preview">${preTag}${chat.lastMessage || '...'}</div>
+                <div class="chat-item-meta">
+                    ${pinHtml}
+                    ${unreadHtml}
+                </div>
+            </div>
         </div>
     `;
 }
