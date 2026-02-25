@@ -274,79 +274,20 @@ client.on('ready', async () => {
     const connectedInfo = client.info ? (client.info.pushname || client.info.wid.user) : 'Dispositivo vinculado';
     updateStatus('ready', connectedInfo);
 
-    // Initial sync of chats to populate the sidebar as fast as possible
+    // Ultra-Fast Parallel Sync: Run scraper and official API simultaneously
     (async () => {
         try {
-            console.log(`[FastSync] Iniciando captura de chats para account: ${client.info.wid.user}...`);
+            console.log(`[FastSync] 🚀 Iniciando captura ultra-rápida para: ${client.info.wid.user}`);
 
-            let chats = null;
-            let retry = 0;
+            let syncResolved = false;
 
-            // Try scraping first (fastest and most detailed)
-            while (retry < 5) {
-                try {
-                    const storeReady = await client.pupPage.evaluate(() => !!(window.Store && window.Store.Chat));
-                    if (storeReady) {
-                        chats = await client.pupPage.evaluate(() => {
-                            const c = window.Store.Chat.getModelsArray();
-                            if (!c || c.length === 0) return null;
+            const processChats = (newChats) => {
+                if (syncResolved || !newChats || newChats.length === 0) return;
+                syncResolved = true;
 
-                            // Get top 80 chats to ensure we don't miss pins/active ones
-                            return c.slice(0, 80).map(chat => {
-                                let lastMsgText = "...";
-                                if (chat.msgs && chat.msgs.length > 0) {
-                                    const lastMsg = chat.msgs[chat.msgs.length - 1];
-                                    lastMsgText = lastMsg.body || (lastMsg.type === 'image' ? "📷 Foto" : (lastMsg.type === 'video' ? "🎥 Video" : "Contenido"));
-                                }
-
-                                return {
-                                    id: chat.id._serialized,
-                                    name: chat.formattedTitle || chat.name || chat.id._serialized,
-                                    timestamp: chat.t || 0,
-                                    lastMessage: lastMsgText,
-                                    isPinned: chat.pin > 0,
-                                    pinIndex: chat.pin || 0,
-                                    isArchived: chat.archive || false,
-                                    unreadCount: chat.unreadCount || 0,
-                                    isGroup: chat.isGroup || false
-                                };
-                            });
-                        });
-                        if (chats && chats.length > 0) break;
-                    }
-                } catch (e) {
-                    console.error(`[FastSync] Scraper retry ${retry}:`, e.message);
-                }
-                retry++;
-                await new Promise(r => setTimeout(r, 1000));
-            }
-
-            // Fallback to official API if scraper failed
-            if (!chats || chats.length === 0) {
-                console.log("[FastSync] Scraper falló, usando API oficial...");
-                try {
-                    const officialChats = await client.getChats();
-                    chats = officialChats.slice(0, 50).map(c => ({
-                        id: c.id._serialized,
-                        name: c.name,
-                        timestamp: c.timestamp,
-                        lastMessage: "Sincronizado",
-                        isPinned: c.pinned || false,
-                        isArchived: c.archived || false,
-                        unreadCount: c.unreadCount || 0
-                    }));
-                } catch (apiErr) {
-                    console.error("[FastSync] Error API oficial:", apiErr.message);
-                }
-            }
-
-            if (chats && chats.length > 0) {
-                // Filter out the 'Self' chat (user's own number)
                 const selfId = client.info.wid._serialized;
-
-                for (const chat of chats) {
-                    if (chat.id === selfId) continue;
-
+                newChats.forEach(chat => {
+                    if (chat.id === selfId) return;
                     const chatId = chat.id;
                     if (!conversations[chatId]) {
                         conversations[chatId] = {
@@ -365,16 +306,69 @@ client.on('ready', async () => {
                     } else {
                         conversations[chatId].name = chat.name || chatId;
                         conversations[chatId].isPinned = chat.isPinned || false;
-                        conversations[chatId].pinIndex = chat.pinIndex || 0;
                         conversations[chatId].isArchived = chat.isArchived || false;
                         conversations[chatId].unreadCount = chat.unreadCount || 0;
                         if (chat.timestamp) conversations[chatId].timestamp = chat.timestamp;
                     }
-                }
+                });
+
                 saveHistory();
-                console.log(`[FastSync] ✓ Sync completo (${chats.length} chats).`);
+                console.log(`[FastSync] ✓ ¡Éxito! ${newChats.length} chats sincronizados.`);
                 io.emit('chats_synced');
-            }
+            };
+
+            // Task 1: Persistent Scraper (Fastest if WA Web is hydrated)
+            const scraperTask = (async () => {
+                for (let retry = 0; retry < 10; retry++) {
+                    if (syncResolved) return;
+                    try {
+                        const chats = await client.pupPage.evaluate(() => {
+                            if (!window.Store || !window.Store.Chat) return null;
+                            const all = window.Store.Chat.getModelsArray();
+                            if (!all || all.length === 0) return null;
+                            return all.slice(0, 100).map(c => ({
+                                id: c.id._serialized,
+                                name: c.formattedTitle || c.name || c.id._serialized,
+                                timestamp: c.t || 0,
+                                lastMessage: (c.msgs && c.msgs.length > 0) ? (c.msgs[c.msgs.length - 1].body || "Contenido") : "...",
+                                isPinned: c.pin > 0,
+                                isArchived: c.archive || false,
+                                unreadCount: c.unreadCount || 0
+                            }));
+                        });
+                        if (chats && chats.length > 0) {
+                            console.log("[FastSync] Scraper ganó la carrera.");
+                            processChats(chats);
+                            return;
+                        }
+                    } catch (e) { }
+                    await new Promise(r => setTimeout(r, 600)); // Repetir cada 0.6s
+                }
+            })();
+
+            // Task 2: Official API (Guaranteed fallback)
+            const apiTask = (async () => {
+                try {
+                    const official = await client.getChats();
+                    if (official && official.length > 0 && !syncResolved) {
+                        console.log("[FastSync] API oficial ganó la carrera.");
+                        const mapped = official.slice(0, 60).map(c => ({
+                            id: c.id._serialized,
+                            name: c.name,
+                            timestamp: c.timestamp,
+                            lastMessage: "Sincronizado",
+                            isPinned: c.pinned || false,
+                            isArchived: c.archived || false,
+                            unreadCount: c.unreadCount || 0
+                        }));
+                        processChats(mapped);
+                    }
+                } catch (e) {
+                    console.error("[FastSync] Error en API oficial:", e.message);
+                }
+            })();
+
+            await Promise.race([scraperTask, apiTask]);
 
         } catch (err) {
             console.error("[FastSync] Error fatal:", err.message);
