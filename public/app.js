@@ -5,8 +5,6 @@ const statusText = document.getElementById('status-text');
 const statusDot = document.querySelector('.status-dot');
 const statusIndicator = document.getElementById('status-indicator');
 const retryBtn = document.querySelector('.retry-btn');
-const qrImage = document.getElementById('qr-image');
-const qrPanel = document.getElementById('connection-panel');
 const chatList = document.getElementById('chat-list');
 const messagesContainer = document.getElementById('messages-container');
 const messageInput = document.getElementById('message-input');
@@ -289,8 +287,8 @@ async function toggleGlobalBot(checkbox) {
 // --- UI RENDERING ---
 
 function updateConnectionStatus(status, logic) {
-    statusDot.className = 'status-dot'; // reset
-    retryBtn.style.display = 'none';
+    if (statusDot) statusDot.className = 'status-dot'; // reset
+    if (retryBtn) retryBtn.style.display = 'none';
 
     // New WhatsApp section elements
     const waQrImage = document.getElementById('wa-qr-image');
@@ -307,10 +305,9 @@ function updateConnectionStatus(status, logic) {
 
     switch (status) {
         case 'disconnected':
-            statusDot.classList.add('disconnected');
-            statusText.textContent = 'Desconectado';
-            qrPanel.style.display = 'flex';
-            retryBtn.style.display = 'inline-block';
+            if (statusDot) statusDot.classList.add('disconnected');
+            if (statusText) statusText.textContent = 'Desconectado';
+            if (retryBtn) retryBtn.style.display = 'inline-block';
             if (waStatus) waStatus.textContent = 'Sesión cerrada. Reconecta para vincular de nuevo.';
             if (waConnected) waConnected.style.display = 'none';
             if (waQrBox) waQrBox.style.display = 'flex';
@@ -321,12 +318,9 @@ function updateConnectionStatus(status, logic) {
             showBtn(waBtnReconnect, true);
             break;
         case 'qr_ready':
-            statusDot.classList.add('waiting');
-            statusText.textContent = 'Esperando Escaneo';
-            qrPanel.style.display = 'flex';
+            if (statusDot) statusDot.classList.add('waiting');
+            if (statusText) statusText.textContent = 'Esperando Escaneo';
             if (logic) {
-                qrImage.src = logic;
-                qrImage.style.display = 'block';
                 if (waQrImage) { waQrImage.src = logic; waQrImage.style.display = 'block'; }
                 if (waQrSpinner) waQrSpinner.style.display = 'none';
                 if (waStatus) waStatus.textContent = 'Escanea el código QR con tu teléfono';
@@ -338,18 +332,16 @@ function updateConnectionStatus(status, logic) {
             showBtn(waBtnReconnect, false);
             break;
         case 'connecting':
-            statusDot.classList.add('connecting');
-            statusText.textContent = 'Conectando...';
-            qrPanel.style.display = 'flex';
+            if (statusDot) statusDot.classList.add('connecting');
+            if (statusText) statusText.textContent = 'Conectando...';
             if (waStatus) waStatus.textContent = 'Conectando...';
             showBtn(waBtnScanning, false);
             showBtn(waBtnDisconnect, false);
             showBtn(waBtnReconnect, false);
             break;
         case 'ready':
-            statusDot.classList.add('connected');
-            statusText.textContent = 'Conectado';
-            qrPanel.style.display = 'none';
+            if (statusDot) statusDot.classList.add('connected');
+            if (statusText) statusText.textContent = 'Conectado';
             if (waStatus) waStatus.textContent = '¡Número conectado y activo!';
             if (waQrBox) waQrBox.style.display = 'none';
             if (waConnected) waConnected.style.display = 'flex';
@@ -358,9 +350,8 @@ function updateConnectionStatus(status, logic) {
             showBtn(waBtnReconnect, false);
             break;
         default: // error
-            statusDot.classList.add('disconnected');
-            statusText.textContent = 'Error: ' + logic;
-            if (logic && logic.includes('generate')) qrPanel.style.display = 'flex';
+            if (statusDot) statusDot.classList.add('disconnected');
+            if (statusText) statusText.textContent = 'Error: ' + logic;
             if (waStatus) waStatus.textContent = 'Error de conexión';
             showBtn(waBtnScanning, false);
             showBtn(waBtnDisconnect, false);
