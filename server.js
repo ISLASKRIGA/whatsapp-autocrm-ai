@@ -208,7 +208,13 @@ const client = new Client({
             '--no-first-run',
             '--no-zygote',
             '--single-process',
-            '--disable-gpu'
+            '--disable-gpu',
+            '--disable-canvas-aa',
+            '--disable-2d-canvas-clip-aa',
+            '--disable-gl-drawing-for-tests',
+            '--disable-breakpad',
+            '--disable-canvas-sketch-serialization',
+            '--js-flags="--max-old-space-size=512"'
         ],
     },
     webVersionCache: {
@@ -280,16 +286,22 @@ client.on('ready', async () => {
             console.log(`[FastSync] 🚀 Iniciando captura ultra-rápida para: ${client.info.wid.user}`);
 
             let syncResolved = false;
+            let lastChatCount = 0;
 
-            const processChats = (newChats) => {
+            const processChats = (newChats, final = false) => {
                 if (syncResolved || !newChats || newChats.length === 0) return;
-                syncResolved = true;
+
+                // Only resolve if it's the final API or we have a good amount of chats
+                if (final) syncResolved = true;
 
                 const selfId = client.info.wid._serialized;
+                let addedAny = false;
+
                 newChats.forEach(chat => {
                     if (chat.id === selfId) return;
                     const chatId = chat.id;
                     if (!conversations[chatId]) {
+                        addedAny = true;
                         conversations[chatId] = {
                             id: chatId,
                             name: chat.name || chatId,
@@ -304,6 +316,7 @@ client.on('ready', async () => {
                             synced: false
                         };
                     } else {
+                        // Update existing with fresh data from WA Store
                         conversations[chatId].name = chat.name || chatId;
                         conversations[chatId].isPinned = chat.isPinned || false;
                         conversations[chatId].isArchived = chat.isArchived || false;
@@ -312,14 +325,16 @@ client.on('ready', async () => {
                     }
                 });
 
-                saveHistory();
-                console.log(`[FastSync] ✓ ¡Éxito! ${newChats.length} chats sincronizados.`);
-                io.emit('chats_synced');
+                if (addedAny || newChats.length !== lastChatCount) {
+                    lastChatCount = newChats.length;
+                    saveHistory();
+                    io.emit('chats_synced');
+                }
             };
 
-            // Task 1: Persistent Scraper (Fastest if WA Web is hydrated)
+            // Task 1: Incremental Scraper (Fastest for UI response)
             const scraperTask = (async () => {
-                for (let retry = 0; retry < 10; retry++) {
+                for (let retry = 0; retry < 15; retry++) {
                     if (syncResolved) return;
                     try {
                         const chats = await client.pupPage.evaluate(() => {
@@ -337,22 +352,19 @@ client.on('ready', async () => {
                             }));
                         });
                         if (chats && chats.length > 0) {
-                            console.log("[FastSync] Scraper ganó la carrera.");
-                            processChats(chats);
-                            return;
+                            processChats(chats, chats.length > 40); // If we have >40, we are good enough for first wave
                         }
                     } catch (e) { }
-                    await new Promise(r => setTimeout(r, 600)); // Repetir cada 0.6s
+                    await new Promise(r => setTimeout(r, 800)); // Every 0.8s
                 }
             })();
 
-            // Task 2: Official API (Guaranteed fallback)
+            // Task 2: Official API (Deep sync)
             const apiTask = (async () => {
                 try {
                     const official = await client.getChats();
                     if (official && official.length > 0 && !syncResolved) {
-                        console.log("[FastSync] API oficial ganó la carrera.");
-                        const mapped = official.slice(0, 60).map(c => ({
+                        const mapped = official.slice(0, 80).map(c => ({
                             id: c.id._serialized,
                             name: c.name,
                             timestamp: c.timestamp,
@@ -361,14 +373,14 @@ client.on('ready', async () => {
                             isArchived: c.archived || false,
                             unreadCount: c.unreadCount || 0
                         }));
-                        processChats(mapped);
+                        processChats(mapped, true); // Official API is final
                     }
                 } catch (e) {
-                    console.error("[FastSync] Error en API oficial:", e.message);
+                    console.error("[FastSync] API oficial falló:", e.message);
                 }
             })();
 
-            await Promise.race([scraperTask, apiTask]);
+            await Promise.allSettled([scraperTask, apiTask]);
 
         } catch (err) {
             console.error("[FastSync] Error fatal:", err.message);
