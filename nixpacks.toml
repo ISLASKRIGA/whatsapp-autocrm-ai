@@ -1,0 +1,2 @@
+[phases.setup]
+nixPkgs = ["...", "google-chrome", "pango", "udev", "libX11", "libXcursor", "libXdamage", "libXext", "libXfixes", "libXrender", "libXi", "libXss", "libXtst", "cups", "libXrandr", "asound", "atk", "at-spi2-atk", "gtk3", "gdk-pixbuf", "glib"]

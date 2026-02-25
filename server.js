@@ -54,24 +54,40 @@ function loadReplies() {
 }
 loadReplies();
 
-// History Storage
-const HISTORY_FILE = 'history.json';
+// History Management with Account Isolation
+const HISTORY_DIR = 'histories';
+if (!fs.existsSync(HISTORY_DIR)) fs.mkdirSync(HISTORY_DIR);
+
+let currentUserId = null;
 let conversations = {};
 
+function getHistoryFile() {
+    if (!currentUserId) return 'history_default.json';
+    return path.join(HISTORY_DIR, `history_${currentUserId}.json`);
+}
+
 function loadHistory() {
-    if (fs.existsSync(HISTORY_FILE)) {
+    const file = getHistoryFile();
+    if (fs.existsSync(file)) {
         try {
-            conversations = JSON.parse(fs.readFileSync(HISTORY_FILE, 'utf8'));
+            conversations = JSON.parse(fs.readFileSync(file, 'utf8'));
+            console.log(`[History] Carga exitosa: ${file} (${Object.keys(conversations).length} chats)`);
         } catch (err) {
             console.error("Error loading history:", err);
             conversations = {};
         }
+    } else {
+        conversations = {};
     }
 }
-loadHistory();
 
 function saveHistory() {
-    fs.writeFileSync(HISTORY_FILE, JSON.stringify(conversations, null, 2));
+    const file = getHistoryFile();
+    try {
+        fs.writeFileSync(file, JSON.stringify(conversations, null, 2));
+    } catch (err) {
+        console.error("Error saving history:", err);
+    }
 }
 
 const APPOINTMENTS_FILE = 'appointments.json';
@@ -248,39 +264,64 @@ client.on('qr', (qr) => {
 client.on('ready', async () => {
     console.log('Client is ready!');
     qrCodeData = null;
+
+    // Account Isolation: Load only the history belonging to THIS number
+    currentUserId = client.info.wid.user; // Set the current user ID
+    loadHistory();
+
     const connectedInfo = client.info ? (client.info.pushname || client.info.wid.user) : 'Dispositivo vinculado';
     updateStatus('ready', connectedInfo);
 
-    // Delay allowing WhatsApp Web's internal store to fully populate.
+    // Initial sync of the last 50 chats to populate the sidebar
+    // Cloud environments (Railway) might need more time to hydrate the WA Web store
     setTimeout(async () => {
         try {
-            console.log("Fetching existing chats from WhatsApp...");
+            console.log(`[Railway Sync] Iniciando sincronismo para: ${client.info.wid.user}...`);
+
+            // Wait for window.Store to be injected by WWebJS
+            let storeInjected = false;
+            for (let i = 0; i < 10; i++) {
+                storeInjected = await client.pupPage.evaluate(() => !!(window.Store && window.Store.Chat));
+                if (storeInjected) break;
+                console.log("[Railway Sync] Esperando window.Store...");
+                await new Promise(r => setTimeout(r, 2000));
+            }
+
             let chats = [];
             let retry = 0;
-            while (retry < 3) {
+            while (retry < 7) {
                 try {
                     chats = await client.pupPage.evaluate(() => {
-                        if (!window.Store || !window.Store.Chat) return [];
-                        const models = window.Store.Chat.getModelsArray();
-                        return models.map(c => {
-                            let lastMsgObj = c.msgs && c.msgs.length > 0 ? c.msgs[c.msgs.length - 1] : null;
-                            let lastMsgText = "📷 Contenido";
-                            if (lastMsgObj && lastMsgObj.body) { lastMsgText = lastMsgObj.body; }
-                            return {
-                                id: c.id._serialized,
-                                name: c.formattedTitle || c.name || c.id._serialized,
-                                timestamp: c.t || (lastMsgObj ? lastMsgObj.t : 0),
-                                lastMessage: lastMsgText
-                            };
-                        });
+                        if (!window.Store || !window.Store.Chat) return null;
+                        const allChats = window.Store.Chat.getModelsArray();
+                        if (!allChats || allChats.length === 0) return null;
+
+                        return allChats.slice(0, 100).map(c => ({
+                            id: c.id._serialized,
+                            name: c.formattedTitle || c.name || c.id._serialized,
+                            timestamp: c.t || 0,
+                            lastMessage: (c.msgs && c.msgs.length > 0) ? (c.msgs[c.msgs.length - 1].body || "📷 Contenido") : "..."
+                        }));
                     });
 
                     if (chats && chats.length > 0) break;
                 } catch (e) {
-                    console.error("Retrying getChats()... internal error:", e.message);
+                    console.error(`[Railway Sync] Intento ${retry} fallido:`, e.message);
                 }
                 retry++;
                 await new Promise(r => setTimeout(r, 4000));
+            }
+
+            // Fallback to official method if scraper fails
+            if (!chats || chats.length === 0) {
+                console.log("Scraper failed or empty, trying official getChats()...");
+                const officialChats = await client.getChats();
+                chats = officialChats.slice(0, 50).map(c => ({
+                    id: c.id._serialized,
+                    name: c.name,
+                    timestamp: c.timestamp,
+                    lastMessage: "Sincronizado"
+                }));
             }
 
             // Sort the raw chats to make sure the newest (highest timestamp) is on top
@@ -333,6 +374,7 @@ client.on('disconnected', (reason) => {
     console.log('Client was logged out', reason);
     updateStatus('disconnected', reason);
     qrCodeData = null;
+    currentUserId = null; // Clear user ID on disconnect
 });
 
 // Helper to process and store messages
@@ -623,6 +665,12 @@ app.post('/api/bot-status', (req, res) => {
 app.post('/api/disconnect', async (req, res) => {
     try {
         updateStatus('disconnected');
+
+        // Clear local memory immediately
+        console.log('Session disconnecting. Clearing local state...');
+        conversations = {};
+        currentUserId = null; // Clear user ID on disconnect
+
         await client.logout();
 
         // Auto-reinitialize to show a new QR code immediately
@@ -630,13 +678,14 @@ app.post('/api/disconnect', async (req, res) => {
         updateStatus('connecting');
         client.initialize().catch(e => console.error("Auto-init error:", e));
 
-        res.json({ success: true, message: 'Session closed. Re-initializing...' });
+        res.json({ success: true, message: 'Session closed and memory cleared.' });
     } catch (err) {
         console.error('Error during logout:', err);
-        // Fallback: try to initialize anyway if logout failed but we want a fresh start
+        conversations = {};
+        currentUserId = null; // Clear user ID on disconnect even if logout fails
         updateStatus('disconnected');
         client.initialize().catch(e => console.error("Fallback init error:", e));
-        res.json({ success: true, message: 'Forced disconnect and re-init.' });
+        res.json({ success: true, message: 'Forced disconnect and memory cleared.' });
     }
 });
 
